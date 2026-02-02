@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
+  </ItemGroup>
+
+  <!--<ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
+  </ItemGroup>-->
+
+  
+  <ItemGroup>
+    <ProjectReference Include="..\CinemaWebAppOriginal.Common\CinemaWebAppOriginal.Common.csproj" />
+    <ProjectReference Include="..\CinemaWebAppOriginal.Data.Models\CinemaWebAppOriginal.Data.Models.csproj" />
+    <ProjectReference Include="..\CinemaWebAppOriginal.Data\CinemaWebAppOriginal.Data.csproj" />
+    <ProjectReference Include="..\CinemaWebAppOriginal.Services.Data\CinemaWebAppOriginal.Services.Data.csproj" />
+    <ProjectReference Include="..\CinemaWebAppOriginal.ViewModels\CinemaWebAppOriginal.ViewModels.csproj" />
+    <ProjectReference Include="..\Infrastructure\CinemaWebAppOriginal.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

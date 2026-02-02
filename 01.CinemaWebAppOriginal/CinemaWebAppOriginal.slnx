@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Data/">
+    <Project Path="CinemaWebAppOriginal.Data.Models/CinemaWebAppOriginal.Data.Models.csproj" Id="85fea6b5-6eaf-4f8b-bb8e-ab8ee3673fa3" />
+    <Project Path="CinemaWebAppOriginal.Data/CinemaWebAppOriginal.Data.csproj" Id="1d8b9ee7-3121-47bf-a745-4d65ac6d1e13" />
+  </Folder>
+  <Folder Name="/Services/">
+    <Project Path="CinemaWebAppOriginal.Services.Data/CinemaWebAppOriginal.Services.Data.csproj" Id="78739f4e-cfdf-4755-bc41-60cd124da005" />
+  </Folder>
+  <Folder Name="/Web/">
+    <Project Path="CinemaWebAppOriginal.ViewModels/CinemaWebAppOriginal.ViewModels.csproj" Id="d4ee2ef8-74d9-410f-a3bd-f731a4d4568e" />
+    <Project Path="CinemaWebAppOriginal/CinemaWebAppOriginal.csproj" />
+    <Project Path="Infrastructure/CinemaWebAppOriginal.Infrastructure.csproj" Id="3c1cc42f-c5ab-4c0a-a32f-5e903c9faea4" />
+  </Folder>
+  <Project Path="CinemaWebAppOriginal.Common/CinemaWebAppOriginal.Common.csproj" Id="f93b4ad2-4c56-40b8-b0c3-03fb5181f96b" />
+</Solution>

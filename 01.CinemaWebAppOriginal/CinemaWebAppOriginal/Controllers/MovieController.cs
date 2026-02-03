@@ -71,26 +71,14 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpGet]
         public async Task <IActionResult> AddToProgram(int movieId)
         {
-            Movie? movie = await this.context.Movies.FirstOrDefaultAsync(m => m.Id == movieId);
+            bool checkIfMovieExists = await this.movieService.CheckIfMovieExists(movieId);  
 
-            if (movie == null)
+            if (!checkIfMovieExists)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            List<Cinema> cinemas = await this.context.Cinemas.ToListAsync();
-
-            AddMovieToCinemaProgramViewModel viewModel = new AddMovieToCinemaProgramViewModel()
-            {
-                MovieId = movieId,
-                MovieTitle = movie.Title,
-                Cinemas = cinemas.Select(c => new CinemaCheckBoxItem
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    IsSelected = false
-                }).ToList(),
-            };
+            AddMovieToCinemaProgramViewModel viewModel = await this.movieService.AddMovieToCinemaProgramGetView(movieId);
 
             return View(viewModel);
         }
@@ -99,30 +87,13 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToProgram(AddMovieToCinemaProgramViewModel model)
         {
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            List<CinemaMovie> existingAssignment = await this.context.CinemasMovies
-                                         .Where(cm => cm.MovieId == model.MovieId)
-                                         .ToListAsync();
-
-            this.context.RemoveRange(existingAssignment);
-
-            foreach (var cinema in model.Cinemas)
-            {
-                if (cinema.IsSelected)
-                {
-                    var cinemaMovie = new CinemaMovie
-                    {
-                        CinemaId = cinema.Id,
-                        MovieId = model.MovieId,
-                    };
-                    await context.CinemasMovies.AddAsync(cinemaMovie);
-                }
-            }
-            await this.context.SaveChangesAsync();
+            this.movieService.AddMovieToACinemaProgram(model);
 
             return RedirectToAction(nameof(Index));
         }

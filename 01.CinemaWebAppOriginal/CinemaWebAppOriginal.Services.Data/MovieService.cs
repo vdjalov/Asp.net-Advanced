@@ -19,14 +19,59 @@ namespace CinemaWebAppOriginal.Services.Data
         }
 
 
-        public Task AddMovieToACinemaProgram(int movieId)
+        public async Task<AddMovieToCinemaProgramViewModel> AddMovieToCinemaProgramGetView(int movieId)
         {
-            throw new NotImplementedException();
+            AddMovieToCinemaProgramViewModel ?viewModel = this.movieRepository.GetAllAttached()
+                .Where(m => m.Id == movieId)
+                .Select(m => new AddMovieToCinemaProgramViewModel
+                {
+                    MovieId = m.Id,
+                    MovieTitle = m.Title,
+                    Cinemas = this.movieRepository.GetAllAttached()
+                    .SelectMany(cm => cm.CinemaMovies)
+                    .Select(c => c.Cinema)
+                    .Distinct()
+                        .Select(cb => new CinemaCheckBoxItem
+                        {
+                            Id = cb.Id,
+                            Name = cb.Name,
+                            IsSelected = this.movieRepository.GetAllAttached()
+                                .Where(m => m.Id == movieId)
+                                .SelectMany(m => m.CinemaMovies)
+                                .Any(cm => cm.CinemaId == cb.Id)
+                        }).ToList(),
+                }).FirstOrDefault();
+
+            return viewModel;
         }
 
         public async Task AddMovieToACinemaProgram(AddMovieToCinemaProgramViewModel model)
         {
-            throw new NotImplementedException();
+            List<CinemaMovie> existingAssignments = await movieRepository.GetAllAttached()
+                                         .SelectMany(cm => cm.CinemaMovies)
+                                         .Where(cm => cm.MovieId == model.MovieId)
+                                         .ToListAsync();
+            
+            Movie movie = await this.movieRepository.GetByIdAsync(model.MovieId);
+
+            //this.movieRepository.DeleteRange(existingAssignments);
+
+            foreach (var cinema in model.Cinemas)
+            {
+                if (cinema.IsSelected && !existingAssignments.Any(c => c.CinemaId == cinema.Id))
+                {
+
+                    var cinemaMovie = new CinemaMovie
+                    {
+                        CinemaId = cinema.Id,
+                        MovieId = model.MovieId,
+                    };
+                   
+                    movie.CinemaMovies.Add(cinemaMovie);
+                }
+            }
+            await this.movieRepository.UpdateAsync(movie);
+
         }
 
         public async Task<bool> CheckIfMovieExists(int movieId)
@@ -70,11 +115,6 @@ namespace CinemaWebAppOriginal.Services.Data
                     }).ToListAsync();
 
             return moviesInDb;
-        }
-
-        public Task<IQueryable<MovieViewModel>> GetAllMoviesAttached()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<MovieViewModel> GetMovieDetailsById(int id)

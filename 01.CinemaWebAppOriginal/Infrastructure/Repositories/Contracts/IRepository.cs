@@ -32,6 +32,8 @@
         // Delete an Entity of type TType by its ID
         Task DeleteAsync(TId id);
 
+        void DeleteRange(List<TType> entities);
+
         // Delete by bool value actualy not deleted - not asynchronous
         //bool SoftDelete(TId id);
 

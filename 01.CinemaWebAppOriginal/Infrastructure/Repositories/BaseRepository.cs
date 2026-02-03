@@ -56,6 +56,11 @@ namespace CinemaWebAppOriginal.Infrastructure.Repositories
             }
         }
 
+        public void DeleteRange(List<TType> entities)
+        {
+            this.dbSet.RemoveRange(entities);
+        }
+
         public IEnumerable<TType> GetAll()
         {
             return this.dbSet.ToArray();

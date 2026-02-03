@@ -75,6 +75,7 @@ namespace CinemaWebAppOriginal.Controllers
 
             if (!checkIfMovieExists)
             {
+                ModelState.AddModelError(string.Empty, "Movie does not exist.");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -87,13 +88,12 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToProgram(AddMovieToCinemaProgramViewModel model)
         {
-
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            this.movieService.AddMovieToACinemaProgram(model);
+            await this.movieService.AddMovieToACinemaProgramAsync(model);
 
             return RedirectToAction(nameof(Index));
         }

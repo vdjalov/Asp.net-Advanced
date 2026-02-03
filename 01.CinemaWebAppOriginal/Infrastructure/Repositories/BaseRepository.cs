@@ -56,9 +56,10 @@ namespace CinemaWebAppOriginal.Infrastructure.Repositories
             }
         }
 
-        public void DeleteRange(List<TType> entities)
+        public async Task DeleteRangeAndSaveChangesAsync(List<TType> entities)
         {
             this.dbSet.RemoveRange(entities);
+            await this.context.SaveChangesAsync();
         }
 
         public IEnumerable<TType> GetAll()

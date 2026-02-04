@@ -10,12 +10,12 @@ namespace CinemaWebAppOriginal.Services.Data
     {
         private readonly IRepository<Movie, int> movieRepository;
         private readonly IRepository<Cinema, int> cinemaRepository;
-        private readonly IRepository<CinemaMovie, int> cinemaMovieRepository;
+        private readonly IRepository<CinemaMovie, object> cinemaMovieRepository;
 
 
         public MovieService(IRepository<Movie, int> _movieRepository, 
             IRepository<Cinema, int> _cinemaRepository, 
-            IRepository<CinemaMovie, int> _cinemaMovieRepository)
+            IRepository<CinemaMovie, object> _cinemaMovieRepository)
         {
             this.movieRepository = _movieRepository;
             this.cinemaRepository = _cinemaRepository;
@@ -48,17 +48,17 @@ namespace CinemaWebAppOriginal.Services.Data
 
         public async Task AddMovieToACinemaProgramAsync(AddMovieToCinemaProgramViewModel model)
         {
-            List<CinemaMovie> existingAssignments =await this.cinemaMovieRepository.GetAllAttached()
+            List<CinemaMovie> existingAssignments = await this.cinemaMovieRepository.GetAllAttached()
                                                             .Where(cm => cm.MovieId == model.MovieId)
                                                             .ToListAsync();
 
 
-            await this.cinemaMovieRepository.DeleteRangeAndSaveChangesAsync(existingAssignments);
+           await this.cinemaMovieRepository.DeleteRangeAndSaveChangesAsync(existingAssignments);
            
 
             foreach (var cinema in model.Cinemas)
             {
-                if (cinema.IsSelected && !existingAssignments.Any(c => c.CinemaId == cinema.Id))
+                if (cinema.IsSelected)
                 {
 
                     var cinemaMovie = new CinemaMovie

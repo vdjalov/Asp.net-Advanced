@@ -38,6 +38,8 @@ namespace CinemaWebAppOriginal
 
             builder.Services.AddScoped<ICinemaService, CinemaService>();
             builder.Services.AddScoped<IMovieService, MovieService>();
+            builder.Services.AddScoped<IWatchlistService, WatchlistService>();
+
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
             {

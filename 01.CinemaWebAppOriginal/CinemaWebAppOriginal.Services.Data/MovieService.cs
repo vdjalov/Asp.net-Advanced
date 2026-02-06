@@ -52,7 +52,6 @@ namespace CinemaWebAppOriginal.Services.Data
                                                             .Where(cm => cm.MovieId == model.MovieId)
                                                             .ToListAsync();
 
-
            await this.cinemaMovieRepository.DeleteRangeAndSaveChangesAsync(existingAssignments);
            
 
@@ -60,7 +59,6 @@ namespace CinemaWebAppOriginal.Services.Data
             {
                 if (cinema.IsSelected)
                 {
-
                     var cinemaMovie = new CinemaMovie
                     {
                         CinemaId = cinema.Id,

@@ -42,17 +42,25 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container" m>
+        <main role="main" class="py-5">
             @RenderBody()
-        </main>
+        </main >
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - CinemaWebAppOriginal
+    <!-- Footer Section -->        
+    <footer class="footer bg-light text-muted mt-5">
+        <div class="container text-center">
+            <p>&copy; 2024 CinemaWebAppOriginal | Bringing Cinema and Movies to You</p>
+            <p>
+                Follow us on:
+                <a href="#" class="text-muted mx-1">Facebook</a> 
+                <a href="#" class="text-muted mx-1">Twitter</a>
+                <a href="#" class="text-muted mx-1">Instagram</a>
+            </p>
         </div>
     </footer>
+        
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

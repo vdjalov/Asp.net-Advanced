@@ -1,31 +1,28 @@
 ﻿using CinemaWebAppOriginal.Data;
-using CinemaWebAppOriginal.Data.Models;
 using CinemaWebAppOriginal.Services.Data.Interfaces;
 using CinemaWebAppOriginal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace CinemaWebAppOriginal.Controllers
 {
     [Authorize]
     public class WatchlistController : Controller
     {
-        private readonly AppDbContext context;
-        private readonly UserManager<ApplicationUser> userManager;
         private readonly IWatchlistService watchlistService;
 
-        public WatchlistController(AppDbContext _context, UserManager<ApplicationUser> _userManager, IWatchlistService _watchlistService)
+        public WatchlistController( IWatchlistService _watchlistService)
         {
-            this.context = _context;
-            this.userManager = _userManager;
             this.watchlistService = _watchlistService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            string userId = this.userManager.GetUserId(User);
+            string userId = this.GetUserId();
 
             ICollection<WatchlistViewModel> watchlistMovies = 
                 await this.watchlistService.GetAllWatchlistMoviesForUserAsync(userId);
@@ -34,48 +31,47 @@ namespace CinemaWebAppOriginal.Controllers
         }
 
 
+        // Adding a movie to the user's watchlist 
         [HttpPost]
         public async Task<IActionResult> AddToWatchlist(int movieId)
         {
+            string userId = this.GetUserId();
 
-            string userId = this.userManager.GetUserId(User);
+            bool checkIfAlreadyExists = await this.watchlistService.CheckIfMovieAlreadyAddedInWatchlistAync(movieId, userId);
 
-            UserMovie checkIfAlreadyExists = await context.UsersMovies.FirstOrDefaultAsync(um => um.UserId == userId && um.MovieId == movieId);
-
-            if (checkIfAlreadyExists != null)
+            if (checkIfAlreadyExists)
             {
                 return RedirectToAction("Index", "Movie");
             }
 
-            UserMovie newUserMovie = new UserMovie()
-            {
-                UserId = userId,
-                MovieId = movieId,
-            };
-           
-            await context.UsersMovies.AddAsync(newUserMovie);
-            await context.SaveChangesAsync();
+            await this.watchlistService.AddMovieToUserWatchlistAsync(movieId, userId);
 
             return RedirectToAction(nameof(Index), "Movie");
         }
 
+
+        //removing a movie from the user's watchlist
         [HttpPost]
         public async Task<IActionResult> RemoveFromWatchlist(int movieId)
         {
-            string userId = this.userManager.GetUserId(User);
+            string userId = this.GetUserId();
 
-            UserMovie checkIfAlreadyExists = await context.UsersMovies.FirstOrDefaultAsync(um => um.UserId == userId && um.MovieId == movieId);
+            bool checkIfAlreadyExists = await this.watchlistService.CheckIfMovieAlreadyAddedInWatchlistAync(movieId, userId);
 
-            if (checkIfAlreadyExists == null)
+            if (!checkIfAlreadyExists)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            this.context.UsersMovies.Remove(checkIfAlreadyExists);
-            await this.context.SaveChangesAsync();
-
-
+            await this.watchlistService.RemoveMovieFromUserWatchlistAsync(movieId, userId);
+           
             return RedirectToAction(nameof(Index));
         }
+
+
+
+        // Helper method to get the current user's ID
+        private string GetUserId()
+         => User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }

@@ -55,6 +55,11 @@ namespace CinemaWebAppOriginal.Infrastructure.Repositories
                 await this.context.SaveChangesAsync();
             }
         }
+        public async Task RemoveAsync(TType entity)
+        {
+            this.dbSet.Remove(entity);
+            await this.context.SaveChangesAsync();
+        }
 
         public async Task DeleteRangeAndSaveChangesAsync(List<TType> entities)
         {

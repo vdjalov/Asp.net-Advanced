@@ -26,6 +26,9 @@
         // Add a new Entity of type TType
         Task AddAndSaveAsync(TType entity);
 
+        // Remove Entity of type TType
+        Task RemoveAsync(TType entity);
+        
         // Delete an Entity of type TType by its ID
         bool Delete(TId id);
 

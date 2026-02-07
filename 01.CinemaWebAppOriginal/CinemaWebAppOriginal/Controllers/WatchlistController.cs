@@ -1,5 +1,6 @@
 ﻿using CinemaWebAppOriginal.Data;
 using CinemaWebAppOriginal.Data.Models;
+using CinemaWebAppOriginal.Services.Data.Interfaces;
 using CinemaWebAppOriginal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,30 +14,22 @@ namespace CinemaWebAppOriginal.Controllers
     {
         private readonly AppDbContext context;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IWatchlistService watchlistService;
 
-        public WatchlistController(AppDbContext _context, UserManager<ApplicationUser> _userManager)
+        public WatchlistController(AppDbContext _context, UserManager<ApplicationUser> _userManager, IWatchlistService _watchlistService)
         {
             this.context = _context;
             this.userManager = _userManager;
+            this.watchlistService = _watchlistService;
         }
 
         public async Task<IActionResult> Index()
         {
             string userId = this.userManager.GetUserId(User);
 
-            ICollection<WatchlistViewModel> watchlistMovies = await context.UsersMovies
-                                        .Where(um => um.UserId == userId)
-                                        .Include(um => um.Movie)
-                                        .Select(um => new WatchlistViewModel()
-                                        {
-                                            MovieId = um.MovieId,
-                                            Title = um.Movie.Title,
-                                            Genre = um.Movie.Genre,
-                                            ReleaseDate = um.Movie.ReleaseDate.ToString("dd/MM/yyyy"),
-                                            ImageUrl = um.Movie.ImageUrl,
-                                        })
-                                        .ToListAsync();
-
+            ICollection<WatchlistViewModel> watchlistMovies = 
+                await this.watchlistService.GetAllWatchlistMoviesForUserAsync(userId);
+                
             return View(watchlistMovies);
         }
 

@@ -28,7 +28,6 @@ namespace CinemaWebAppOriginal
                 options.UseSqlServer(connectionString);
             });
 
-            
 
             builder.Services.AddScoped<IRepository<Movie, int>, BaseRepository<Movie, int>>();
             builder.Services.AddScoped<IRepository<Ticket, int>, BaseRepository<Ticket, int>>();

@@ -32,8 +32,16 @@ namespace CinemaWebAppOriginal.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             return View(new MovieViewModel());
         }
 
@@ -41,6 +49,14 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(MovieViewModel viewModel)
         {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             if (ModelState.IsValid)
             {
               await this.movieService.CreateMovieAsync(viewModel);
@@ -113,6 +129,23 @@ namespace CinemaWebAppOriginal.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Manage()
+        {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            ICollection<AllMoviesViewModel> movies = await this.movieService.GetAllMoviesAsync();
+
+            return View(movies);
+        }
 
         // Method to get the user id from the claims
         private string GetUserId()

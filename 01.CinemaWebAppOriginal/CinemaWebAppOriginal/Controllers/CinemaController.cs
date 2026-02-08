@@ -22,6 +22,9 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+
+            ViewBag.userId = this.GetUserId();
+            ViewBag.isUserManager = await this.managerService.IsUserAManager(ViewBag.userId);
             IEnumerable<AllCinemaViewModel> cinemaIndexViewModels = await this.cinemaService.GetAllOrderedByLocationAsync();
                                 
             return View(cinemaIndexViewModels);

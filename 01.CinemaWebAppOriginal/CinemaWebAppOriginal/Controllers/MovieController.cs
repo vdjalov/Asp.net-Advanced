@@ -1,25 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-using CinemaWebAppOriginal.Data;
-using CinemaWebAppOriginal.Data.Models;
+﻿using CinemaWebAppOriginal.Data;
+using CinemaWebAppOriginal.Services.Data.Interfaces;
 using CinemaWebAppOriginal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
-using CinemaWebAppOriginal.Services.Data.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CinemaWebAppOriginal.Controllers
 {
-    [Authorize]
+    
     public class MovieController : Controller
     {
-        private readonly AppDbContext context;
+        
         private readonly IMovieService movieService;
+        private readonly IManagerService managerService;
 
-
-        public MovieController(AppDbContext _context, IMovieService _movieService)
+        public MovieController(IMovieService _movieService, IManagerService _managerService)
         {
-            this.context = _context;
             this.movieService = _movieService;
+            this.managerService = _managerService;
         }
 
 
@@ -32,13 +30,14 @@ namespace CinemaWebAppOriginal.Controllers
         }
 
 
+        [Authorize]
         [HttpGet]
         public IActionResult Create()
         {
             return View(new MovieViewModel());
         }
 
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(MovieViewModel viewModel)
         {
@@ -67,10 +66,18 @@ namespace CinemaWebAppOriginal.Controllers
             return View(movie);
         }
 
-
+        [Authorize]
         [HttpGet]
         public async Task <IActionResult> AddToProgram(int movieId)
         {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             bool checkIfMovieExists = await this.movieService.CheckIfMovieExists(movieId);  
 
             if (!checkIfMovieExists)
@@ -83,11 +90,19 @@ namespace CinemaWebAppOriginal.Controllers
 
             return View(viewModel);
         }
-
-
+       
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddToProgram(AddMovieToCinemaProgramViewModel model)
         {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -98,5 +113,9 @@ namespace CinemaWebAppOriginal.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        // Method to get the user id from the claims
+        private string GetUserId()
+            => User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }

@@ -1,7 +1,10 @@
-﻿
+﻿@using CinemaWebAppOriginal.Services.Data.Interfaces
+
 @{
     var footerYear = DateTime.Now.Year;
+    string userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 }
+@inject IManagerService managerService;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -27,9 +30,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @if (User?.Identity?.IsAuthenticated ?? false) // show only if user is logged in
+                        @if (User?.Identity?.IsAuthenticated ?? false) // show only if user is logged in and a manager
                         {
-                            @* Manager Dropdown Menu *@
+                            @if (!string.IsNullOrEmpty(userId) && await this.managerService.IsUserAManager(userId)) 
+                            {
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-dark" href="#" id="managerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Manager
@@ -39,6 +44,7 @@
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Movie" asp-action="Index">Manage Movies</a></li>
                             </ul>
                         </li>
+                            }
                         }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cinema" asp-action="Index">Cinemas</a>

@@ -2,18 +2,20 @@
 using CinemaWebAppOriginal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CinemaWebAppOriginal.Controllers
 {
-    [Authorize]
+ 
     public class CinemaController : Controller
     {
 
         private readonly ICinemaService cinemaService;
-        
-        public CinemaController(ICinemaService _cinemaService)
+        private readonly IManagerService managerService;
+        public CinemaController(ICinemaService _cinemaService, IManagerService _managerService)
         {
             this.cinemaService = _cinemaService;
+            this.managerService = _managerService;
         }
 
         // List all cinemas
@@ -25,16 +27,34 @@ namespace CinemaWebAppOriginal.Controllers
             return View(cinemaIndexViewModels);
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             return View(new CinemaCreateViewModel());
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(CinemaCreateViewModel model)
         {
-            if(!ModelState.IsValid)
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+
+            if(!isUserManager)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (!ModelState.IsValid)
             { 
                 return View(model);
             }
@@ -58,14 +78,30 @@ namespace CinemaWebAppOriginal.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
+            string userId = this.GetUserId();
+
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+
+            if(!isUserManager)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
             IEnumerable<AllCinemaViewModel> cinemaIndexViewModels = 
                     await this.cinemaService.GetAllOrderedByLocationAsync();
 
             return View(cinemaIndexViewModels);
-        } 
+        }
+
+
+        // Method to get the user id from the claims
+        private string GetUserId()
+            => User.FindFirstValue(ClaimTypes.NameIdentifier);
+
 
     }
 }

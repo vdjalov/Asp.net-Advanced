@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    var footerYear = DateTime.Now.Year;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,7 +26,20 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li
+                        </li>
+                        @if (User?.Identity?.IsAuthenticated ?? false) // show only if user is logged in
+                        {
+                            @* Manager Dropdown Menu *@
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="managerDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Manager
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="managerDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Cinema" asp-action="Index">Manage Cinemas</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Movie" asp-action="Index">Manage Movies</a></li>
+                            </ul>
+                        </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cinema" asp-action="Index">Cinemas</a>
                         </li>
@@ -51,7 +69,7 @@
     <!-- Footer Section -->        
     <footer class="footer bg-light text-muted mt-5">
         <div class="container text-center">
-            <p>&copy; 2024 CinemaWebAppOriginal | Bringing Cinema and Movies to You</p>
+            <p>&copy; 2024 - @footerYear CinemaWebAppOriginal | Bringing Cinema and Movies to You</p>
             <p>
                 Follow us on:
                 <a href="#" class="text-muted mx-1">Facebook</a> 

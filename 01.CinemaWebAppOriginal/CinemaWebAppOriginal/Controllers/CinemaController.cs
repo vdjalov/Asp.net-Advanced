@@ -1,7 +1,4 @@
-﻿using CinemaWebAppOriginal.Data;
-using CinemaWebAppOriginal.Data.Models;
-using CinemaWebAppOriginal.Infrastructure.Repositories.Contracts;
-using CinemaWebAppOriginal.Services.Data.Interfaces;
+﻿using CinemaWebAppOriginal.Services.Data.Interfaces;
 using CinemaWebAppOriginal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -60,6 +57,15 @@ namespace CinemaWebAppOriginal.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Manage()
+        {
+            IEnumerable<AllCinemaViewModel> cinemaIndexViewModels = 
+                    await this.cinemaService.GetAllOrderedByLocationAsync();
+
+            return View(cinemaIndexViewModels);
+        } 
 
     }
 }

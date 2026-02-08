@@ -34,11 +34,12 @@ namespace CinemaWebAppOriginal
             builder.Services.AddScoped<IRepository<Cinema, int>, BaseRepository<Cinema, int>>();
             builder.Services.AddScoped<IRepository<CinemaMovie, object>, BaseRepository<CinemaMovie, object>>();
             builder.Services.AddScoped<IRepository<UserMovie, object>, BaseRepository<UserMovie, object>>();
+            builder.Services.AddScoped<IRepository<Manager, Guid>, BaseRepository<Manager, Guid>>();
 
             builder.Services.AddScoped<ICinemaService, CinemaService>();
             builder.Services.AddScoped<IMovieService, MovieService>();
             builder.Services.AddScoped<IWatchlistService, WatchlistService>();
-
+            builder.Services.AddScoped<IManagerService, ManagerService>();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
             {

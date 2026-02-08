@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaWebAppOriginal.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260208084251_manager_added")]
-    partial class manager_added
+    [Migration("20260208090633_manager-dbsetadded")]
+    partial class managerdbsetadded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,7 +144,7 @@ namespace CinemaWebAppOriginal.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Manager");
+                    b.ToTable("Managers");
                 });
 
             modelBuilder.Entity("CinemaWebAppOriginal.Data.Models.Movie", b =>

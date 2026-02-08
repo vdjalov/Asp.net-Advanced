@@ -20,6 +20,8 @@ namespace CinemaWebAppOriginal.ViewModels
         [Required(ErrorMessage = "Director name is required.")]
         [StringLength(100, MinimumLength =2, ErrorMessage = "Movie name must be between {2} and {1} letters")]
         public string Director { get; set; } = null!;
+
+        [Range(20, 250)]
         public int Duration { get; set; }
 
         [Required]

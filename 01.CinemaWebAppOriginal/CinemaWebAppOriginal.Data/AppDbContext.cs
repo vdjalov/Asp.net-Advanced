@@ -15,11 +15,11 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet <CinemaMovie> CinemasMovies { get; set; }
     public DbSet<UserMovie> UsersMovies { get; set; }
     public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<Manager> Managers { get; set; }
 
 
 
-
-  protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 

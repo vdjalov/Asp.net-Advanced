@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaWebAppOriginal.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260202084523_ticket-added")]
-    partial class ticketadded
+    [Migration("20260208084251_manager_added")]
+    partial class manager_added
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,6 +124,27 @@ namespace CinemaWebAppOriginal.Data.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("CinemasMovies");
+                });
+
+            modelBuilder.Entity("CinemaWebAppOriginal.Data.Models.Manager", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<short>("WorkPhoneNumber")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Manager");
                 });
 
             modelBuilder.Entity("CinemaWebAppOriginal.Data.Models.Movie", b =>
@@ -368,6 +389,17 @@ namespace CinemaWebAppOriginal.Data.Migrations
                     b.Navigation("Movie");
                 });
 
+            modelBuilder.Entity("CinemaWebAppOriginal.Data.Models.Manager", b =>
+                {
+                    b.HasOne("CinemaWebAppOriginal.Data.Models.ApplicationUser", "User")
+                        .WithOne("Manager")
+                        .HasForeignKey("CinemaWebAppOriginal.Data.Models.Manager", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("CinemaWebAppOriginal.Data.Models.Ticket", b =>
                 {
                     b.HasOne("CinemaWebAppOriginal.Data.Models.Cinema", "Cinema")
@@ -404,7 +436,7 @@ namespace CinemaWebAppOriginal.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("CinemaWebAppOriginal.Data.Models.ApplicationUser", "User")
-                        .WithMany()
+                        .WithMany("Watchlist")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -467,7 +499,12 @@ namespace CinemaWebAppOriginal.Data.Migrations
 
             modelBuilder.Entity("CinemaWebAppOriginal.Data.Models.ApplicationUser", b =>
                 {
+                    b.Navigation("Manager")
+                        .IsRequired();
+
                     b.Navigation("Tickets");
+
+                    b.Navigation("Watchlist");
                 });
 
             modelBuilder.Entity("CinemaWebAppOriginal.Data.Models.Cinema", b =>

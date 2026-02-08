@@ -4,6 +4,7 @@ namespace CinemaWebAppOriginal.Infrastructure.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {
+        // method that should be able to use in the view for userId retrieval ---- TODO does not work 
         public static string GetUserId(this ClaimsPrincipal userClaimsPrincipal)
             {
                 if (userClaimsPrincipal == null)

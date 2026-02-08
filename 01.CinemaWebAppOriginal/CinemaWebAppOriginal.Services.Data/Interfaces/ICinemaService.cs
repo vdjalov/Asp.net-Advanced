@@ -7,6 +7,6 @@ namespace CinemaWebAppOriginal.Services.Data.Interfaces
         Task<IEnumerable<AllCinemaViewModel>> GetAllOrderedByLocationAsync();
         Task CreateCinemaAsync(CinemaCreateViewModel model);
         Task<CinemaDetailsViewModel> GetDetailsByIdAsync(int id);
-
+        Task<CinemaEditViewModel> EditCinemaByIdAsync(int id);
     }
 }

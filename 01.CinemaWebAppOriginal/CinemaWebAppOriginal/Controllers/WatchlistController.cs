@@ -1,11 +1,7 @@
-﻿using CinemaWebAppOriginal.Data;
-using CinemaWebAppOriginal.Services.Data.Interfaces;
+﻿using CinemaWebAppOriginal.Services.Data.Interfaces;
 using CinemaWebAppOriginal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace CinemaWebAppOriginal.Controllers
 {

@@ -2,7 +2,6 @@
 using CinemaWebAppOriginal.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace CinemaWebAppOriginal.Controllers
 {
@@ -100,9 +99,28 @@ namespace CinemaWebAppOriginal.Controllers
             return View(cinemaIndexViewModels);
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Manage));
+            }
 
-        
-       
+            CinemaEditViewModel model = await this.cinemaService.EditCinemaByIdAsync(id);
+
+            if(model == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+
+
 
 
     }

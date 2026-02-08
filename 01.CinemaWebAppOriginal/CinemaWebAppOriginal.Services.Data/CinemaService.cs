@@ -26,7 +26,6 @@ namespace CinemaWebAppOriginal.Services.Data
            await this.cinemaRepository.AddAndSaveAsync(cinema);
         }
 
-
         // Snatching all from DB and returning to Index View
         public async Task<IEnumerable<AllCinemaViewModel>> GetAllOrderedByLocationAsync()
         {
@@ -74,6 +73,20 @@ namespace CinemaWebAppOriginal.Services.Data
             return model;
         }
 
-       
+        public async Task<CinemaEditViewModel> EditCinemaByIdAsync(int id)
+        {
+           CinemaEditViewModel ?model = await this.cinemaRepository.GetAllAttached()
+                                         .Where(c => c.Id == id)
+                                         .Select(c => new CinemaEditViewModel
+                                         {
+                                             Id = c.Id,
+                                             Name = c.Name,
+                                             Location = c.Location,
+                                         })
+                                         .FirstOrDefaultAsync();
+
+            return model;
+        }
+
     }
 }

@@ -8,7 +8,7 @@ using System.Security.Claims;
 namespace CinemaWebAppOriginal.Controllers
 {
     
-    public class MovieController : Controller
+    public class MovieController : BaseController
     {
         
         private readonly IMovieService movieService;
@@ -147,8 +147,5 @@ namespace CinemaWebAppOriginal.Controllers
             return View(movies);
         }
 
-        // Method to get the user id from the claims
-        private string GetUserId()
-            => User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }

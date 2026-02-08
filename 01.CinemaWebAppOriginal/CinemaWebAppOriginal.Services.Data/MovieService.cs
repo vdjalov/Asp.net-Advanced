@@ -108,6 +108,7 @@ namespace CinemaWebAppOriginal.Services.Data
                         Title = m.Title,
                         Genre = m.Genre,
                         ReleaseDate = m.ReleaseDate,
+                        Director = m.Director,
                         Duration = m.Duration,
                     }).ToListAsync();
 

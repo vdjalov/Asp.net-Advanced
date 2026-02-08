@@ -10,7 +10,7 @@ using System.Security.Claims;
 namespace CinemaWebAppOriginal.Controllers
 {
     [Authorize]
-    public class WatchlistController : Controller
+    public class WatchlistController : BaseController
     {
         private readonly IWatchlistService watchlistService;
 
@@ -69,9 +69,5 @@ namespace CinemaWebAppOriginal.Controllers
         }
 
 
-
-        // Helper method to get the current user's ID
-        private string GetUserId()
-         => User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }

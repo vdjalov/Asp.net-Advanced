@@ -7,7 +7,7 @@ using System.Security.Claims;
 namespace CinemaWebAppOriginal.Controllers
 {
  
-    public class CinemaController : Controller
+    public class CinemaController : BaseController
     {
 
         private readonly ICinemaService cinemaService;
@@ -25,6 +25,7 @@ namespace CinemaWebAppOriginal.Controllers
 
             ViewBag.userId = this.GetUserId();
             ViewBag.isUserManager = await this.managerService.IsUserAManager(ViewBag.userId);
+
             IEnumerable<AllCinemaViewModel> cinemaIndexViewModels = await this.cinemaService.GetAllOrderedByLocationAsync();
                                 
             return View(cinemaIndexViewModels);
@@ -86,7 +87,6 @@ namespace CinemaWebAppOriginal.Controllers
         public async Task<IActionResult> Manage()
         {
             string userId = this.GetUserId();
-
             bool isUserManager = await this.managerService.IsUserAManager(userId);
 
             if(!isUserManager)
@@ -101,9 +101,8 @@ namespace CinemaWebAppOriginal.Controllers
         }
 
 
-        // Method to get the user id from the claims
-        private string GetUserId()
-            => User.FindFirstValue(ClaimTypes.NameIdentifier);
+        
+       
 
 
     }

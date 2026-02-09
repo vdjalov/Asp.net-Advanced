@@ -102,7 +102,7 @@ namespace CinemaWebAppOriginal.Infrastructure.Repositories
             this.context.SaveChanges();
         }
 
-        public async Task UpdateAsync(TType entity)
+        public async Task UpdateAndSaveAsync(TType entity)
         {
             this.dbSet.Attach(entity);
             this.dbSet.Entry(entity).State = EntityState.Modified;

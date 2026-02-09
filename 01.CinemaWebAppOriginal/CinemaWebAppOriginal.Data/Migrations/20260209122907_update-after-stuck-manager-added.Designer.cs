@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaWebAppOriginal.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260208090633_manager-dbsetadded")]
-    partial class managerdbsetadded
+    [Migration("20260209122907_update-after-stuck-manager-added")]
+    partial class updateafterstuckmanageradded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

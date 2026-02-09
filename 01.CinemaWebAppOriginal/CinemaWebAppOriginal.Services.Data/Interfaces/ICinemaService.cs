@@ -8,5 +8,7 @@ namespace CinemaWebAppOriginal.Services.Data.Interfaces
         Task CreateCinemaAsync(CinemaCreateViewModel model);
         Task<CinemaDetailsViewModel> GetDetailsByIdAsync(int id);
         Task<CinemaEditViewModel> EditCinemaByIdAsync(int id);
+        Task EditPostCinemaByIdAsync(CinemaEditViewModel model);
+        Task<bool> CheckIfCinemaExists(int id);
     }
 }

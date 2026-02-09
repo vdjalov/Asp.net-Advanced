@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CinemaWebAppOriginal.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class managerdbsetadded : Migration
+    public partial class updateafterstuckmanageradded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

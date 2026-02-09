@@ -47,6 +47,6 @@
         void Update(TType entity);
 
         // Update an existing entity of type TType
-        Task UpdateAsync(TType entity);
+        Task UpdateAndSaveAsync(TType entity);
     }
 }

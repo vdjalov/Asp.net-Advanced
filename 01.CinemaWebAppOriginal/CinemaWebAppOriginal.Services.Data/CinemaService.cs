@@ -15,6 +15,7 @@ namespace CinemaWebAppOriginal.Services.Data
             this.cinemaRepository = _cinemaRepository;
         }
 
+        // Creating a cinema and saving it to the DB
         public async Task CreateCinemaAsync(CinemaCreateViewModel model)
         {
             Cinema cinema = new Cinema()
@@ -44,6 +45,7 @@ namespace CinemaWebAppOriginal.Services.Data
             return cinemaIndexViewModels;
         }
 
+        // Snatching the cinema by id and returning it to Details View
         public async Task<CinemaDetailsViewModel> GetDetailsByIdAsync(int id)
         {
             Cinema ?cinema = await this.cinemaRepository.GetAllAttached()
@@ -73,6 +75,7 @@ namespace CinemaWebAppOriginal.Services.Data
             return model;
         }
 
+        // Snatching the cinema by id and returning it to Edit View
         public async Task<CinemaEditViewModel> EditCinemaByIdAsync(int id)
         {
            CinemaEditViewModel ?model = await this.cinemaRepository.GetAllAttached()
@@ -88,5 +91,29 @@ namespace CinemaWebAppOriginal.Services.Data
             return model;
         }
 
+        // Snatching the cinema by id, editing it and saving the changes to the DB
+        public async Task EditPostCinemaByIdAsync(CinemaEditViewModel model)
+        {
+            Cinema ?cinema = await this.cinemaRepository.GetAllAttached()
+                                         .FirstOrDefaultAsync(c => c.Id == model.Id);
+            // check anyway
+            if (cinema == null)
+            {
+                throw new ArgumentException("Cinema with the provided id does not exist.");
+            }
+
+            cinema.Name = model.Name;
+            cinema.Location = model.Location;
+
+            await this.cinemaRepository.UpdateAndSaveAsync(cinema);
+        }
+
+
+        // checking if the cinema exists in the DB by id    
+        public async Task<bool> CheckIfCinemaExists(int id)
+        {
+            return await this.cinemaRepository.GetAllAttached()
+                                         .AnyAsync(c => c.Id == id);    
+        }
     }
 }

@@ -120,8 +120,36 @@ namespace CinemaWebAppOriginal.Controllers
         }
 
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(CinemaEditViewModel model)
+        {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
 
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Manage));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+           bool doesCinemaExist =  await this.cinemaService.CheckIfCinemaExists(model.Id);
+
+            if(doesCinemaExist == false)
+            {
+                return RedirectToAction(nameof(Manage));
+            }
+
+            await this.cinemaService.EditPostCinemaByIdAsync(model);
+
+            return RedirectToAction(nameof(Manage));
+        }
 
 
     }
+
 }

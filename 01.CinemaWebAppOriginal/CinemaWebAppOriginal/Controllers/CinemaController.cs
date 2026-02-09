@@ -141,7 +141,7 @@ namespace CinemaWebAppOriginal.Controllers
 
             if(doesCinemaExist == false)
             {
-                return RedirectToAction(nameof(Manage));
+                return View(model);
             }
 
             await this.cinemaService.EditPostCinemaByIdAsync(model);

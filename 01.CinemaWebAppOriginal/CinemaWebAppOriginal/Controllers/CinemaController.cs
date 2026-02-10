@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaWebAppOriginal.Controllers
 {
- 
+
     public class CinemaController : BaseController
     {
 
@@ -26,7 +26,7 @@ namespace CinemaWebAppOriginal.Controllers
             ViewBag.isUserManager = await this.managerService.IsUserAManager(ViewBag.userId);
 
             IEnumerable<AllCinemaViewModel> cinemaIndexViewModels = await this.cinemaService.GetAllOrderedByLocationAsync();
-                                
+
             return View(cinemaIndexViewModels);
         }
 
@@ -52,13 +52,13 @@ namespace CinemaWebAppOriginal.Controllers
             string userId = this.GetUserId();
             bool isUserManager = await this.managerService.IsUserAManager(userId);
 
-            if(!isUserManager)
+            if (!isUserManager)
             {
                 return RedirectToAction(nameof(Index));
             }
 
             if (!ModelState.IsValid)
-            { 
+            {
                 return View(model);
             }
 
@@ -69,10 +69,10 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-           
+
             CinemaDetailsViewModel model = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
 
-            if(model == null)
+            if (model == null)
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -88,12 +88,12 @@ namespace CinemaWebAppOriginal.Controllers
             string userId = this.GetUserId();
             bool isUserManager = await this.managerService.IsUserAManager(userId);
 
-            if(!isUserManager)
+            if (!isUserManager)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            IEnumerable<AllCinemaViewModel> cinemaIndexViewModels = 
+            IEnumerable<AllCinemaViewModel> cinemaIndexViewModels =
                     await this.cinemaService.GetAllOrderedByLocationAsync();
 
             return View(cinemaIndexViewModels);
@@ -112,7 +112,7 @@ namespace CinemaWebAppOriginal.Controllers
 
             CinemaEditViewModel model = await this.cinemaService.EditCinemaByIdAsync(id);
 
-            if(model == null)
+            if (model == null)
             {
                 return RedirectToAction(nameof(Index));
             }
@@ -137,9 +137,9 @@ namespace CinemaWebAppOriginal.Controllers
                 return View(model);
             }
 
-           bool doesCinemaExist =  await this.cinemaService.CheckIfCinemaExists(model.Id);
+            bool doesCinemaExist = await this.cinemaService.CheckIfCinemaExists(model.Id);
 
-            if(doesCinemaExist == false)
+            if (doesCinemaExist == false)
             {
                 return View(model);
             }
@@ -149,9 +149,48 @@ namespace CinemaWebAppOriginal.Controllers
             return RedirectToAction(nameof(Manage));
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> SoftDelete(int id)
+        {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Manage));
+            }
+            CinemaDetailsViewModel cinema = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
 
+            if (cinema == null)
+            {
+                return RedirectToAction(nameof(Manage));
+            }
 
+            return View(cinema);
+        }
 
+        [Authorize]
+        [HttpPost, ActionName("SoftDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SoftDeleteConfirmed(int id)
+        {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Manage));
+            }
+
+            bool isSoftDeleted = await this.cinemaService.SoftDeleteCinemaAsync(id);
+
+            if (isSoftDeleted == false)
+            {
+                TempData["ErrorMessage"] = "Unable to delete cinema. It may have active movies associated with it.";
+                return RedirectToAction(nameof(Manage));
+            }
+
+            return RedirectToAction(nameof(Manage));
+        }
     }
-
 }

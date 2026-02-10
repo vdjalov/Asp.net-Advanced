@@ -46,7 +46,7 @@ namespace CinemaWebAppOriginal.Services.Data
         }
 
         // Snatching the cinema by id and returning it to Details View
-        public async Task<CinemaDetailsViewModel> GetDetailsByIdAsync(int id)
+        public async Task<CinemaDetailsViewModel> GetCinemaDetailsByIdAsync(int id)
         {
             Cinema ?cinema = await this.cinemaRepository.GetAllAttached()
                                          .Include(c => c.CinemaMovies)

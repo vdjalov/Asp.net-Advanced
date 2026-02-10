@@ -70,7 +70,7 @@ namespace CinemaWebAppOriginal.Controllers
         public async Task<IActionResult> Details(int id)
         {
            
-            CinemaDetailsViewModel model = await this.cinemaService.GetDetailsByIdAsync(id);
+            CinemaDetailsViewModel model = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
 
             if(model == null)
             {

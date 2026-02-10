@@ -169,8 +169,9 @@ namespace CinemaWebAppOriginal.Controllers
             return View(cinema);
         }
 
+
         [Authorize]
-        [HttpPost, ActionName("SoftDelete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SoftDeleteConfirmed(int id)
         {
@@ -187,7 +188,7 @@ namespace CinemaWebAppOriginal.Controllers
             if (isSoftDeleted == false)
             {
                 TempData["ErrorMessage"] = "Unable to delete cinema. It may have active movies associated with it.";
-                return RedirectToAction(nameof(Manage));
+                return RedirectToAction(nameof(SoftDelete), new { id = id});
             }
 
             return RedirectToAction(nameof(Manage));

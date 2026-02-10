@@ -33,6 +33,7 @@ namespace CinemaWebAppOriginal.Services.Data
 
            IEnumerable<AllCinemaViewModel> cinemaIndexViewModels = await cinemaRepository
                                                 .GetAllAttached()
+                                                .Where(c => !c.IsDeleted)
                                                 .Select(c => new AllCinemaViewModel
                                                 {
                                                     Id = c.Id,

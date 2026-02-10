@@ -10,5 +10,6 @@ namespace CinemaWebAppOriginal.Services.Data.Interfaces
         Task<CinemaEditViewModel> EditCinemaByIdAsync(int id);
         Task EditPostCinemaByIdAsync(CinemaEditViewModel model);
         Task<bool> CheckIfCinemaExists(int id);
+        Task<bool> SoftDeleteCinemaAsync(int id);
     }
 }

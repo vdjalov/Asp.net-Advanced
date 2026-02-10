@@ -115,5 +115,33 @@ namespace CinemaWebAppOriginal.Services.Data
             return await this.cinemaRepository.GetAllAttached()
                                          .AnyAsync(c => c.Id == id);    
         }
+
+        // soft deleting the cinema by id and saving the changes to the DB
+        public async Task<bool> SoftDeleteCinemaAsync(int id)
+        {
+            Cinema ?cinema = await this.cinemaRepository.GetAllAttached()
+                                         .Include(c => c.CinemaMovies)
+                                         .FirstOrDefaultAsync(c => c.Id == id);
+
+            if(cinema == null) // check if the cinema exists in the DB by id
+            {
+                return false;
+            }
+
+            bool hasActiveMovies = cinema.CinemaMovies.Any(cm => cm.CinemaId == id);
+
+            if(hasActiveMovies) // check if the cinema has active movies
+            {
+                return false;
+            }
+
+            cinema.IsDeleted = true; // soft delete the cinema
+
+            await this.cinemaRepository.UpdateAndSaveAsync(cinema); // saving the changes to the DB
+
+            return true;
+        }
+
+        
     }
 }

@@ -3,6 +3,8 @@
 using CinemaWebAppOriginal.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using CinemaWebAppOriginal.Data.Configurations;
+using System.Runtime.CompilerServices;
 
 namespace CinemaWebAppOriginal.Data;
 
@@ -21,9 +23,11 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new CinemaMovieConfiguration());
+
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<CinemaMovie>().HasKey(cm => new { cm.CinemaId, cm.MovieId});
+       
 
                     
     }

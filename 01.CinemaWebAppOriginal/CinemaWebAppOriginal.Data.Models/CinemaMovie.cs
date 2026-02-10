@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CinemaWebAppOriginal.Data.Models
 {
+    
     public class CinemaMovie
     {
 

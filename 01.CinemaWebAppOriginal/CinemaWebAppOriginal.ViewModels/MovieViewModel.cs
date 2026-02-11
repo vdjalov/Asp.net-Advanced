@@ -5,7 +5,6 @@ namespace CinemaWebAppOriginal.ViewModels
     public class MovieViewModel
     {
 
-
         [Required(ErrorMessage = "Movie title is required")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Movie name must be between {2} and {1} letters")]
         public string Title { get; set; } = null!;

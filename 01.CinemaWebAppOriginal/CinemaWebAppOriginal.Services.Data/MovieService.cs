@@ -102,6 +102,7 @@ namespace CinemaWebAppOriginal.Services.Data
         {
 
             ICollection<AllMoviesViewModel> moviesInDb = await this.movieRepository.GetAllAttached()
+                    .Where(m => !m.IsDeleted)
                     .Select(m => new AllMoviesViewModel
                     {
                         Id = m.Id,
@@ -118,7 +119,7 @@ namespace CinemaWebAppOriginal.Services.Data
         public async Task<MovieViewModel> GetMovieDetailsById(int id)
         {
             MovieViewModel ?movie = await this.movieRepository.GetAllAttached()
-                .Where(m => m.Id == id)
+                .Where(m => m.Id == id && m.IsDeleted == false)
                 .Select(m => new MovieViewModel
                 {
                     Title = m.Title,
@@ -137,7 +138,7 @@ namespace CinemaWebAppOriginal.Services.Data
         public async Task<EditMovieViewModel> GetMovieEditModelByIdAsync(int id)
         {
             EditMovieViewModel? viewModel = await this.movieRepository.GetAllAttached()
-                .Where(m => m.Id == id)
+                .Where(m => m.Id == id && m.IsDeleted == false)
                 .Select(m => new EditMovieViewModel
                 {
                     Id = m.Id,
@@ -173,6 +174,45 @@ namespace CinemaWebAppOriginal.Services.Data
             await this.movieRepository.UpdateAndSaveAsync(movie);
 
             return true;
+        }
+
+        public async Task<bool> SoftDeleteMovieAsync(int id)
+        {
+            Movie ?movie = await this.movieRepository.GetAllAttached()
+                .Where(m => m.Id == id && m.IsDeleted == false)
+                .Include(m => m.CinemaMovies)
+                .FirstOrDefaultAsync();
+
+            if(movie == null)
+            {
+               return false; // if the movie does not exist, we cannot delete it
+            }
+
+            bool isMovieStillShowingInCinemas = movie.CinemaMovies.Any(mc => mc.MovieId == movie.Id);
+
+            if (isMovieStillShowingInCinemas)
+            {
+                return false; // check if the movie is still showing in any cinema, if it is, we cannot delete it
+            }
+
+            movie.IsDeleted = true;
+            await this.movieRepository.UpdateAndSaveAsync(movie);
+
+            return true;
+        }
+
+        public async Task<DeleteMovieViewModel> GetDeleteMovieViewModelByIdAsync(int id)
+        {
+           
+            DeleteMovieViewModel? viewModel = await this.movieRepository.GetAllAttached()
+                .Where(m => m.Id == id && m.IsDeleted == false)
+                .Select(m => new DeleteMovieViewModel
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                }).FirstOrDefaultAsync();
+
+            return viewModel;
         }
     }
 }

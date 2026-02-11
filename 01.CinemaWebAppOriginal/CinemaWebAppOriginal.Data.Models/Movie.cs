@@ -21,6 +21,8 @@ namespace CinemaWebAppOriginal.Data.Models
         [Required]
         public string ImageUrl { get; set; } = null!;
 
+        public bool IsDeleted { get; set; } = false;
+
         //navigation property for many to many relationship with cinema
         public ICollection<CinemaMovie> CinemaMovies { get; set; } = new List<CinemaMovie>();
 

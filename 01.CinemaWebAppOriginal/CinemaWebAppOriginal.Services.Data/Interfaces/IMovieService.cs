@@ -12,7 +12,8 @@ namespace CinemaWebAppOriginal.Services.Data.Interfaces
         Task<bool> CheckIfMovieExists(int movieId); // Checking if movie exists in the db 
         Task<EditMovieViewModel> GetMovieEditModelByIdAsync(int id); // for the edit view get method
         Task<bool> UpdateMovieAsync(EditMovieViewModel viewModel); // for the edit view post method
-        
+        Task<bool> SoftDeleteMovieAsync(int id); // for the delete method
+        Task<DeleteMovieViewModel> GetDeleteMovieViewModelByIdAsync(int id); // for the delete view get method
 
 
     }

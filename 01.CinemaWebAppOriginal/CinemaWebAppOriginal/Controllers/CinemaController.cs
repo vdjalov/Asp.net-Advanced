@@ -114,7 +114,7 @@ namespace CinemaWebAppOriginal.Controllers
 
             if (model == null)
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Manage));
             }
             return View(model);
         }

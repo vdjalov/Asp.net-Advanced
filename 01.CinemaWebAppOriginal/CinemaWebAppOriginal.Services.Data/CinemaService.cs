@@ -50,6 +50,7 @@ namespace CinemaWebAppOriginal.Services.Data
         public async Task<CinemaDetailsViewModel> GetCinemaDetailsByIdAsync(int id)
         {
             Cinema ?cinema = await this.cinemaRepository.GetAllAttached()
+                                         .Where(c => !c.IsDeleted)
                                          .Include(c => c.CinemaMovies)
                                          .ThenInclude(cm => cm.Movie)
                                          .FirstOrDefaultAsync(c => c.Id == id);
@@ -80,7 +81,7 @@ namespace CinemaWebAppOriginal.Services.Data
         public async Task<CinemaEditViewModel> EditCinemaByIdAsync(int id)
         {
            CinemaEditViewModel ?model = await this.cinemaRepository.GetAllAttached()
-                                         .Where(c => c.Id == id)
+                                         .Where(c => c.Id == id && c.IsDeleted == false)
                                          .Select(c => new CinemaEditViewModel
                                          {
                                              Id = c.Id,

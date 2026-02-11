@@ -24,6 +24,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new CinemaMovieConfiguration());
+        modelBuilder.ApplyConfiguration(new MovieConfiguration());
 
         base.OnModelCreating(modelBuilder);
 

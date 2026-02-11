@@ -133,5 +133,46 @@ namespace CinemaWebAppOriginal.Services.Data
             return movie;
             
         }
+
+        public async Task<EditMovieViewModel> GetMovieEditModelByIdAsync(int id)
+        {
+            EditMovieViewModel? viewModel = await this.movieRepository.GetAllAttached()
+                .Where(m => m.Id == id)
+                .Select(m => new EditMovieViewModel
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    Genre = m.Genre,
+                    ReleaseDate = m.ReleaseDate,
+                    Director = m.Director,
+                    Duration = m.Duration,
+                    Description = m.Description,
+                    ImageUrl = m.ImageUrl,
+                }).FirstOrDefaultAsync();
+
+            return viewModel;
+        }
+
+        public async Task<bool> UpdateMovieAsync(EditMovieViewModel viewModel)
+        {
+            Movie movie = await this.movieRepository.GetByIdAsync(viewModel.Id);
+
+            if(movie == null)
+            {
+                return false;
+            }
+
+            movie.Title = viewModel.Title;
+            movie.Genre = viewModel.Genre;
+            movie.ReleaseDate = viewModel.ReleaseDate;
+            movie.Director = viewModel.Director;
+            movie.Duration = viewModel.Duration;
+            movie.Description = viewModel.Description;
+            movie.ImageUrl = viewModel.ImageUrl;
+
+            await this.movieRepository.UpdateAndSaveAsync(movie);
+
+            return true;
+        }
     }
 }

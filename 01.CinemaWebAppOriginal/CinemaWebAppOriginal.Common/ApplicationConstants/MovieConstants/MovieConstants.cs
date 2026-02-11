@@ -17,6 +17,6 @@ namespace CinemaWebAppOriginal.Common.ApplicationConstants.MovieConstants
         public const string DirectorRequiredMessage = "The director's name is required!";
         public const int DescriptionMinLength = 10;
         public const int DescriptionMaxLength = 1000;
-        public const int ImageUrlMaxLength = 2000;
+        public const int ImageUrlMaxLength = 50000;
     }
 }

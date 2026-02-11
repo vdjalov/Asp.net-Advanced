@@ -145,5 +145,52 @@ namespace CinemaWebAppOriginal.Controllers
             return View(movies);
         }
 
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Manage));
+            }
+
+            bool doesMovieExist = await this.movieService.CheckIfMovieExists(id);
+            if(doesMovieExist == false)
+            {
+                return RedirectToAction(nameof(Manage));
+            }
+
+            EditMovieViewModel viewModel = await this.movieService.GetMovieEditModelByIdAsync(id);
+            return View(viewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditMovieViewModel viewModel)
+        {
+            string userId = this.GetUserId();
+            bool isUserManager = await this.managerService.IsUserAManager(userId);
+            if (!isUserManager)
+            {
+                return RedirectToAction(nameof(Manage));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            bool updateResult = await this.movieService.UpdateMovieAsync(viewModel);
+            if (!updateResult)
+            {
+                ModelState.AddModelError(string.Empty, "Failed to update the movie. Please try again.");
+                return View(viewModel);
+            }
+            return RedirectToAction(nameof(Manage));
+        }
+
     }
 }

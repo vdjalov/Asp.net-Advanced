@@ -4,9 +4,6 @@ using CinemaWebAppOriginal.Services.Data.Interfaces;
 using CinemaWebAppOriginal.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CinemaWebAppOriginal.Services.Data
 {

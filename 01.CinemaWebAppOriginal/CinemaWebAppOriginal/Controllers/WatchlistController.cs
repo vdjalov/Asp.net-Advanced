@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaWebAppOriginal.Controllers
 {
-    [Authorize]
     public class WatchlistController : BaseController
     {
         private readonly IWatchlistService watchlistService;
@@ -15,6 +14,7 @@ namespace CinemaWebAppOriginal.Controllers
             this.watchlistService = _watchlistService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -28,6 +28,7 @@ namespace CinemaWebAppOriginal.Controllers
 
 
         // Adding a movie to the user's watchlist 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddToWatchlist(int movieId)
         {
@@ -37,6 +38,7 @@ namespace CinemaWebAppOriginal.Controllers
 
             if (checkIfAlreadyExists)
             {
+                TempData["ErrorMessage"] = "Movie has already been added to your watchlist.";
                 return RedirectToAction("Index", "Movie");
             }
 
@@ -47,6 +49,7 @@ namespace CinemaWebAppOriginal.Controllers
 
 
         //removing a movie from the user's watchlist
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> RemoveFromWatchlist(int movieId)
         {

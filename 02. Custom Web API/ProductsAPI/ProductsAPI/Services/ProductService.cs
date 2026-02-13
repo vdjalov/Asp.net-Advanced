@@ -26,6 +26,25 @@ namespace ProductsAPI.Services
             return product;
         }
 
+        public void EditProduct(int id, Product product)
+        {
+            Product dbProduct = this.context.Products.Find(id);
+
+            dbProduct.Name = product.Name;
+            dbProduct.Description = product.Description;
+            this.context.SaveChanges();
+        }
+
+        public void EditProductPartially(int id, Product product)
+        {
+            Product dbProduct = this.context.Products.Find(id);
+
+            dbProduct.Name = String.IsNullOrEmpty(product.Name) ? dbProduct.Name : product.Name;
+            dbProduct.Description = String.IsNullOrEmpty(product.Description) ? dbProduct.Description : product.Description;
+            this.context.SaveChanges();
+
+        }
+
         public ActionResult<IEnumerable<Product>> GetAllProducts()
         {
             return this.context.Products.ToList();

@@ -15,6 +15,7 @@ namespace ProductsAPI.Controllers
             this.productService = _productService;
         }
 
+
         [HttpGet]
         public ActionResult<IEnumerable<Product>> GetProducts()
         {
@@ -35,15 +36,48 @@ namespace ProductsAPI.Controllers
             return product;
         }
 
+
         [HttpPost]
         public ActionResult<Product> PostProduct(Product product)
         {
-           product =  productService.CreateProduct(product.Name, product.Description);
+            product = productService.CreateProduct(product.Name, product.Description);
 
-            return CreatedAtAction(nameof(GetProductById), product);
+            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
 
 
+        [HttpPut("{id}")]
+        public ActionResult PutProduct(int id, Product product)
+        {
+            if (id != product.Id)
+            {
+                return BadRequest();
+            }
+
+            if (this.productService.GetProductById(id) == null)
+            {
+                return NotFound();
+            }
+
+            this.productService.EditProduct(id, product);
+
+            return NoContent();
+
+        }
+
+
+        [HttpPatch("{id}")]
+        public IActionResult PatchProduct(int id, Product product)
+        {
+            if(this.productService.GetProductById(id) == null)
+            {
+                return NotFound();
+            }
+
+            this.productService.EditProductPartially(id, product);
+
+            return NoContent();
+        }
 
     }
 }

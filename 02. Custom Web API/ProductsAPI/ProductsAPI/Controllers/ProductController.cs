@@ -22,6 +22,7 @@ namespace ProductsAPI.Controllers
             return this.productService.GetAllProducts();
         }
 
+
         [HttpGet("{id}")]
         public ActionResult<Product> GetProductById(int id)
         {
@@ -33,5 +34,16 @@ namespace ProductsAPI.Controllers
             }
             return product;
         }
+
+        [HttpPost]
+        public ActionResult<Product> PostProduct(Product product)
+        {
+           product =  productService.CreateProduct(product.Name, product.Description);
+
+            return CreatedAtAction(nameof(GetProductById), product);
+        }
+
+
+
     }
 }

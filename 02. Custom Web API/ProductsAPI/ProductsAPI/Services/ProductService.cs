@@ -12,6 +12,20 @@ namespace ProductsAPI.Services
             this.context = _context;
         }
 
+        public Product CreateProduct(string name, string description)
+        {
+           Product product = new Product
+            {
+                Name = name,
+                Description = description
+            };
+
+            this.context.Products.Add(product);
+            this.context.SaveChanges();
+
+            return product;
+        }
+
         public ActionResult<IEnumerable<Product>> GetAllProducts()
         {
             return this.context.Products.ToList();

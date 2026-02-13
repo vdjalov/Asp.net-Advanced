@@ -79,5 +79,21 @@ namespace ProductsAPI.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public ActionResult<Product> DeleteProduct(int id)
+        {
+            var productExists = this.productService.GetProductById(id);
+
+            if (productExists == null)
+            {
+                return NotFound();
+            }
+
+            Product product = this.productService.DeleteProduct(id);
+
+            return product;
+        }
+
+
     }
 }

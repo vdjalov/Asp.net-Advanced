@@ -26,6 +26,16 @@ namespace ProductsAPI.Services
             return product;
         }
 
+        public Product DeleteProduct(int id)
+        {
+            Product product = context.Products.Find(id);
+            this.context.Products.Remove(product);
+            this.context.SaveChanges();
+
+            return product;
+
+        }
+
         public void EditProduct(int id, Product product)
         {
             Product dbProduct = this.context.Products.Find(id);

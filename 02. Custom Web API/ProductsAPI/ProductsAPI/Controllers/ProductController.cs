@@ -94,6 +94,5 @@ namespace ProductsAPI.Controllers
             return product;
         }
 
-
     }
 }

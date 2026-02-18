@@ -10,6 +10,9 @@ namespace CinemaWebAppOriginal.Common.ApplicationConstants.TicketConstants
             public const int MaxNumberOfTickets = 10;
             public const string MinPrice = "0.01m";
             public const string MaxPrice = "1000m";
+            public const int MinAvailableTickets = 0;
+            public const int MaxAvailableTickets = int.MaxValue;
+
 
     }
 }

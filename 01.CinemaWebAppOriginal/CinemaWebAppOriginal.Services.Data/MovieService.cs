@@ -63,6 +63,8 @@ namespace CinemaWebAppOriginal.Services.Data
                     {
                         CinemaId = cinema.Id,
                         MovieId = model.MovieId,
+                        AvailableTickets = 0,
+                        IsDeleted = false,
                     };
                    
                   await cinemaMovieRepository.AddAndSaveAsync(cinemaMovie);

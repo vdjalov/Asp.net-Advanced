@@ -32,6 +32,7 @@ namespace CinemaWebAppOriginal.Services.Data
                 MovieId = movieId,
                 MovieTitle = movie.Title,
                 Cinemas = this.cinemaRepository.GetAllAttached()
+                        .Where(c => !c.IsDeleted)
                         .Select(cb => new CinemaCheckBoxItem
                         {
                             Id = cb.Id,

@@ -198,13 +198,7 @@ namespace CinemaWebAppOriginal.Controllers
         [Authorize]
         public async Task<IActionResult> ViewProgram(int id)
         {
-            bool isManager = await this.managerService.IsUserAManager(this.GetUserId());
-            if (!isManager)
-            {
-                TempData["ErrorMessage"] = "User does not have sufficient rights for this operation.";
-                return RedirectToAction(nameof(Index));
-            }
-
+           
             CinemaProgramViewModel model = await this.cinemaService.GetCinemaProgramByIdAsync(id);
 
             if (model == null)

@@ -1,8 +1,11 @@
 ﻿@using CinemaWebAppOriginal.Services.Data.Interfaces
 
-@{
-    var footerYear = DateTime.Now.Year;
+@{   
     string userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+    int currentYear = DateTime.Now.Year;
+    int releaseYear = 2024; // Replace with actual release year of the application
+    string footerNote = (releaseYear == currentYear) ? $"{releaseYear}" : $"{releaseYear} - {currentYear}";
 }
 @inject IManagerService managerService;
 
@@ -28,9 +31,9 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                       @*  <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                        </li> *@
                         @if (User?.Identity?.IsAuthenticated ?? false) // show only if user is logged in and a manager
                         {
                             @if (!string.IsNullOrEmpty(userId) && await this.managerService.IsUserAManager(userId)) 
@@ -61,6 +64,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Watchlist" asp-action="Index">Watchlist</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>
+                                </li>
+
                             }
                            
                         }
@@ -80,7 +87,7 @@
     <!-- Footer Section -->        
     <footer class="footer bg-light text-muted mt-5">
         <div class="container text-center">
-            <p>&copy; 2024 - @footerYear CinemaWebAppOriginal | Bringing Cinema and Movies to You</p>
+            <p>&copy; @footerNote CinemaWebAppOriginal | Bringing Cinema and Movies to You</p>
             <p>
                 Follow us on:
                 <a href="#" class="text-muted mx-1">Facebook</a> 

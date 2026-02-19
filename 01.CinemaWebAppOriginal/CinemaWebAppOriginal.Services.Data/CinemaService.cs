@@ -144,6 +144,34 @@ namespace CinemaWebAppOriginal.Services.Data
             return true;
         }
 
-        
+        public async Task<CinemaProgramViewModel> GetCinemaProgramByIdAsync(int id) // Snatching the cinema by id and returning it's movie program
+        {
+          Cinema ?cinema = this.cinemaRepository.GetAllAttached()
+                                         .Where(c => c.Id == id && c.IsDeleted == false)
+                                         .Include(c => c.CinemaMovies)
+                                         .ThenInclude(cm => cm.Movie)
+                                         .FirstOrDefault();
+            if (cinema == null)
+            {
+                return null;
+            }
+
+            CinemaProgramViewModel viewModel = new CinemaProgramViewModel()
+            {
+                Id = cinema.Id,
+                Name = cinema.Name,
+                Location = cinema.Location,
+                Movies = cinema.CinemaMovies.Select(cm => new MovieInCinemaViewModel
+                {
+                    Id = cm.Movie.Id,
+                    Title = cm.Movie.Title,
+                    Genre = cm.Movie.Genre,
+                    Duration = $"{cm.Movie.Duration} min",
+                    Description = cm.Movie.Description,
+                }).ToList(),
+            };
+
+            return viewModel;
+        }
     }
 }

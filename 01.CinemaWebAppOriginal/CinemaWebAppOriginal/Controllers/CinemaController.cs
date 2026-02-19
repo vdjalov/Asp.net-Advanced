@@ -193,5 +193,28 @@ namespace CinemaWebAppOriginal.Controllers
 
             return RedirectToAction(nameof(Manage));
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ViewProgram(int id)
+        {
+            bool isManager = await this.managerService.IsUserAManager(this.GetUserId());
+            if (!isManager)
+            {
+                TempData["ErrorMessage"] = "User does not have sufficient rights for this operation.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            CinemaProgramViewModel model = await this.cinemaService.GetCinemaProgramByIdAsync(id);
+
+            if (model == null)
+            {
+                TempData["ErrorMessage"] = "Cinema not found.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
+        }
+
     }
 }

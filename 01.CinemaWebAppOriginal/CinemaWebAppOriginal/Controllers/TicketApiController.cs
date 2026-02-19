@@ -10,13 +10,13 @@ namespace CinemaWebAppOriginal.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class TicketsApiController : BaseController
+    public class TicketApiController : BaseController
     {
         private readonly ITicketService ticketService;
         private readonly ICinemaService cinemaService;
         private readonly IManagerService managerService;
 
-        public TicketsApiController(ITicketService _ticketService, ICinemaService _cinemaService, IManagerService _managerService)
+        public TicketApiController(ITicketService _ticketService, ICinemaService _cinemaService, IManagerService _managerService)
         {
             this.ticketService = _ticketService;
             this.cinemaService = _cinemaService;

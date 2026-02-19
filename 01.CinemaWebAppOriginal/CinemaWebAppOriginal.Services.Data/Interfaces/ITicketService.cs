@@ -7,11 +7,12 @@ namespace CinemaWebAppOriginal.Services.Data.Interfaces
 {
     public interface ITicketService
     {
-        Task<bool> BuyTicketAsync(string cinemaId, string movieId, string userId);
-        Task<bool> SetAvailableTicketsAsync(string cinemaId, string movieId, int availableTickets);
-        Task<bool> DecreaseAvailableTicketsAsync(string cinemaId, string movieId, int numberOfTickets);
+        Task<bool> BuyTicketAsync(int cinemaId, int movieId, string userId);
+        Task<bool> DecreaseAvailableTicketsAsync(int cinemaId, int movieId, int numberOfTickets);
         Task<IEnumerable<UserTicketViewModel>> GetUserTicketsAsync(Guid userId);
-       
+        Task<bool> SetAvailableTicketsAsync(int cinemaId, int movieId, int availableTickets);
+        Task<bool> SetAvailableTicketsAsync(SetAvailableTicketsViewModel viewModel);
+
 
 
     }

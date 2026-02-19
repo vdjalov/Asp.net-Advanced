@@ -7,9 +7,9 @@ namespace CinemaWebAppOriginal.ViewModels.Ticket
     public class SetAvailableTicketsViewModel
     {
         [Required]
-        public string CinemaId { get; set; } = null!;
+        public int CinemaId { get; set; }
         [Required]
-        public string MovieId { get; set; } = null!;
+        public int MovieId { get; set; }
 
         [Required(ErrorMessage = AvailableTicketsRequiredMessage)]
         [Range(MinAvailableTickets, MaxAvailableTickets, ErrorMessage = InvalidAvailableTicketsMessage)]

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaWebAppOriginal.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260218123907_cinemamovie-fields-added")]
-    partial class cinemamoviefieldsadded
+    [Migration("20260220082430_after-pull")]
+    partial class afterpull
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

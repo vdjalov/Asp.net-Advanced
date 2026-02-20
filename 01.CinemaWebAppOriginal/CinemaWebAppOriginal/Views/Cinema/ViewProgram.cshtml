@@ -1,8 +1,11 @@
-﻿@using CinemaWebAppOriginal.ViewModels;
+﻿@using CinemaWebAppOriginal.Services.Data.Interfaces
+@using CinemaWebAppOriginal.ViewModels;
 
 @model CinemaProgramViewModel;
+@inject IManagerService managerService;
 
 @{
+    string userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
     ViewData["Title"] = "Cinema Program";
 }
 
@@ -24,9 +27,19 @@
                             <p class="card-text text-justify" style="font-size: 0.9rem;">@movie.Description</p>
                         </div>
                         <div class="card-footer bg-transparent text-center">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="openManageTicketsModal(@movie.Id)">
-                                <i class="bi bi-ticket-perforated"></i> Manage Tickets
-                            </button>
+                            @if (!string.IsNullOrEmpty(userId) && await this.managerService.IsUserAManager(userId))
+                            {
+                                <button type="button" class="btn btn-primary btn-sm" onclick="openManageTicketsModal('@Model.Id)">
+                                    <i class="bi bi-ticket-perforated"></i> Manage Tickets
+                                </button>
+                            
+                            }else
+                            {
+                                <button type="button" class="btn btn-primary btn-sm" onclick="buyTicketsModal('@Model.Id)">
+                                    <i class="bi bi-ticket-perforated"></i> Buy Ticket
+                                </button>
+                            }
+
                         </div>
                     </div>
                 </div>

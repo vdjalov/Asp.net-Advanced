@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CinemaWebAppOriginal.Common\CinemaWebAppOriginal.Common.csproj" />
+    <ProjectReference Include="..\CinemaWebAppOriginal.Data.Models\CinemaWebAppOriginal.Data.Models.csproj" />
+    <ProjectReference Include="..\CinemaWebAppOriginal.Data\CinemaWebAppOriginal.Data.csproj" />
+    <ProjectReference Include="..\CinemaWebAppOriginal.Services.Data\CinemaWebAppOriginal.Services.Data.csproj" />
+    <ProjectReference Include="..\CinemaWebAppOriginal.ViewModels\CinemaWebAppOriginal.ViewModels.csproj" />
+    <ProjectReference Include="..\CinemaWebAppOriginal\CinemaWebAppOriginal.csproj" />
+    <ProjectReference Include="..\Infrastructure\CinemaWebAppOriginal.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

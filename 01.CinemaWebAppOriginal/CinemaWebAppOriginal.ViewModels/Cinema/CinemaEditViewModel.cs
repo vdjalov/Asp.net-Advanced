@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CinemaWebAppOriginal.ViewModels
+namespace CinemaWebAppOriginal.ViewModels.Cinema
 {
     public class CinemaEditViewModel
     {

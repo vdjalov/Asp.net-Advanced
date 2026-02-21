@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CinemaWebAppOriginal.ViewModels
+namespace CinemaWebAppOriginal.ViewModels.Movie
 {
     public class MovieInCinemaViewModel
     {

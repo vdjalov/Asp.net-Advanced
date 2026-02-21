@@ -1,4 +1,4 @@
-﻿using CinemaWebAppOriginal.ViewModels;
+﻿using CinemaWebAppOriginal.ViewModels.Movie;
 
 namespace CinemaWebAppOriginal.Services.Data.Interfaces
 {

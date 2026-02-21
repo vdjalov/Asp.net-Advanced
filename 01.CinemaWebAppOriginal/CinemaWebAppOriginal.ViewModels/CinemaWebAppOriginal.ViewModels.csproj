@@ -10,9 +10,4 @@
     <ProjectReference Include="..\CinemaWebAppOriginal.Common\CinemaWebAppOriginal.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Cinema\" />
-    <Folder Include="Movie\" />
-  </ItemGroup>
-
 </Project>

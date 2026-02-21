@@ -1,7 +1,8 @@
 ﻿using CinemaWebAppOriginal.Data.Models;
 using CinemaWebAppOriginal.Infrastructure.Repositories.Contracts;
 using CinemaWebAppOriginal.Services.Data.Interfaces;
-using CinemaWebAppOriginal.ViewModels;
+using CinemaWebAppOriginal.ViewModels.Cinema;
+using CinemaWebAppOriginal.ViewModels.Movie;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaWebAppOriginal.Services.Data

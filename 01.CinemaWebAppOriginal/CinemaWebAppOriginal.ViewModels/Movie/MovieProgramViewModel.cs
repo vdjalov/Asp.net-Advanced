@@ -1,4 +1,4 @@
-﻿namespace CinemaWebAppOriginal.ViewModels
+﻿namespace CinemaWebAppOriginal.ViewModels.Movie
 {
     public class MovieProgramViewModel
     {

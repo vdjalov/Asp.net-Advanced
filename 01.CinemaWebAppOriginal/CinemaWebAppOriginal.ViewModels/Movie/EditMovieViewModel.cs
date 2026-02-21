@@ -1,10 +1,7 @@
-﻿
-
-
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using static CinemaWebAppOriginal.Common.ApplicationConstants.MovieConstants.MovieConstants;
 
-namespace CinemaWebAppOriginal.ViewModels
+namespace CinemaWebAppOriginal.ViewModels.Movie
 {
     public class EditMovieViewModel
     {

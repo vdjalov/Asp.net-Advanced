@@ -70,8 +70,9 @@ namespace CinemaWebAppOriginal.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            CinemaDetailsViewModel model = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
+            //CinemaDetailsViewModel model = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
 
+            CinemaProgramViewModel model = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
             if (model == null)
             {
                 return RedirectToAction(nameof(Index));
@@ -159,7 +160,7 @@ namespace CinemaWebAppOriginal.Controllers
             {
                 return RedirectToAction(nameof(Manage));
             }
-            CinemaDetailsViewModel cinema = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
+            CinemaProgramViewModel cinema = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
 
             if (cinema == null)
             {

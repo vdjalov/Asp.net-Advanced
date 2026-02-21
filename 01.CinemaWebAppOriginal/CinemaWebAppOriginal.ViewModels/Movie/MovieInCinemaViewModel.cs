@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CinemaWebAppOriginal.ViewModels.Movie
+﻿namespace CinemaWebAppOriginal.ViewModels.Movie
 {
     public class MovieInCinemaViewModel
     {

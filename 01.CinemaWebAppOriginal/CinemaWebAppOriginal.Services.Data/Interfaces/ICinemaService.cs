@@ -6,7 +6,7 @@ namespace CinemaWebAppOriginal.Services.Data.Interfaces
     {
         Task<IEnumerable<AllCinemaViewModel>> GetAllOrderedByLocationAsync();
         Task CreateCinemaAsync(CinemaCreateViewModel model);
-        Task<CinemaDetailsViewModel> GetCinemaDetailsByIdAsync(int id);
+        Task<CinemaProgramViewModel> GetCinemaDetailsByIdAsync(int id);
         Task<CinemaEditViewModel> EditCinemaByIdAsync(int id);
         Task EditPostCinemaByIdAsync(CinemaEditViewModel model);
         Task<bool> CheckIfCinemaExists(int id);

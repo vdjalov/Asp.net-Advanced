@@ -22,12 +22,22 @@ namespace CinemaWebAppOriginal
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddControllers();
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
             });
 
+            builder.Services.AddCors(cfg =>
+            {
+                cfg.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader();
+                });
+            });
 
             builder.Services.AddScoped<IRepository<Movie, int>, BaseRepository<Movie, int>>();
             builder.Services.AddScoped<IRepository<Ticket, int>, BaseRepository<Ticket, int>>();
@@ -69,6 +79,8 @@ namespace CinemaWebAppOriginal
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
+
+
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -82,6 +94,9 @@ namespace CinemaWebAppOriginal
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCors("AllowAll");
+
+            app.MapRazorPages();
             app.MapRazorPages();
 
             app.MapControllerRoute(

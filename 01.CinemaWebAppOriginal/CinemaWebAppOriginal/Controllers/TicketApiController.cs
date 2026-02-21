@@ -2,7 +2,6 @@
 using CinemaWebAppOriginal.ViewModels.Cinema;
 using CinemaWebAppOriginal.ViewModels.Ticket;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

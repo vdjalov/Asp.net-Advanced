@@ -48,7 +48,7 @@ namespace CinemaWebAppOriginal.Services.Data
         }
 
         // Snatching the cinema by id and returning it to Details View
-        public async Task<CinemaDetailsViewModel> GetCinemaDetailsByIdAsync(int id)
+        public async Task<CinemaProgramViewModel> GetCinemaDetailsByIdAsync(int id)
         {
             Cinema ?cinema = await this.cinemaRepository.GetAllAttached()
                                          .Where(c => !c.IsDeleted)
@@ -56,19 +56,26 @@ namespace CinemaWebAppOriginal.Services.Data
                                          .ThenInclude(cm => cm.Movie)
                                          .FirstOrDefaultAsync(c => c.Id == id);
 
-            CinemaDetailsViewModel ?model = null; 
+            CinemaProgramViewModel ?model = null; 
 
             if (cinema != null)
             {
-                     model = new CinemaDetailsViewModel()
+                model = new CinemaProgramViewModel()
                 {
                     Id = cinema.Id,
                     Name = cinema.Name,
                     Location = cinema.Location,
-                    Movies = cinema.CinemaMovies.Select(cm => new MovieProgramViewModel
+                    Movies = cinema.CinemaMovies
+                    .Where(cm => cm.Movie.IsDeleted == false)
+                    .Select(cm => new MovieInCinemaViewModel
                     {
+                        Id = cm.Movie.Id,
+                        CinemaId = cinema.Id,
                         Title = cm.Movie.Title,
-                        Duration = cm.Movie.Duration,
+                        Genre = cm.Movie.Genre,
+                        Duration = $"{cm.Movie.Duration} + min",
+                        Description = cm.Movie.Description,
+                        AvailableTickets = 0 // Check to see how are tickets being tracked in the DB and implement this property accordingly
                     }).ToList(),
                 };
 

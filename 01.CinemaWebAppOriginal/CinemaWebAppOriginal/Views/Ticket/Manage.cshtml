@@ -1,8 +1,7 @@
-﻿<div id="manageTicketModalContainer">
-    <partial name="_ManageTicketsModal" model="Model.Movies"><partial/>
+﻿@model CinemaWebAppOriginal.ViewModels.Cinema.CinemaProgramViewModel;
+
+<p><strong>@Model.Name</strong> - Cinema Movie Program</p>
+
+<div id="manageTicketModalContainer">
+    <partial name="_ManageTicketsModal.cshtml" model="Model.Movies"><partial />
 </div>
-
-
-
-
-<script src=~/js/manageTickets.js"></script>

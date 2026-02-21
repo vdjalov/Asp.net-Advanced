@@ -1,10 +1,18 @@
 ﻿@* @model CinemaWebAppOriginal.ViewModels.CinemaDetailsViewModel; *@
 @model CinemaWebAppOriginal.ViewModels.Cinema.CinemaProgramViewModel;  
+
+@{
+    ViewData["Title"] = "Cinema Program";
+}
+
+@* <h2 class="my-4 text-center display-4">Cinema Program - @Model.Name</h2>
+<p class="text-center lead"><strong>Location:</strong> @Model.Location</p>
+
 <div id="manageTicketModalContainer">
     <partial name="~/Views/Ticket/_ManageTicketsModal.cshtml" model="Model.Movies"><partial />
-</div>
+</div>*@
 
-@* <h2>@Model.Name - Cinema Movie Program</h2>
+ <h2>@Model.Name - Cinema Movie Program</h2>
 
 <p><strong>Location:</strong> @Model.Location</p>
 
@@ -28,4 +36,9 @@ else
 }
 
 <a asp-action="Index" class="btn btn-secondary mt-3">Back to Cinemas</a>
- *@
+ 
+@* <div class="text-center mt-5">
+    <a asp-action="Index" class="btn btn-secondary btn-lg px-4">
+        <i class="bi bi-arrow-left-circle"></i> Back to Cinemas
+    </a>
+</div> *@

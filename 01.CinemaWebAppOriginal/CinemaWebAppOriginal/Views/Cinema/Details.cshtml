@@ -1,6 +1,10 @@
-﻿@model CinemaWebAppOriginal.ViewModels.CinemaDetailsViewModel;
+﻿@* @model CinemaWebAppOriginal.ViewModels.CinemaDetailsViewModel; *@
+@model CinemaWebAppOriginal.ViewModels.CinemaProgramViewModel;  
+<div id="manageTicketModalContainer">
+    <partial name="~/Views/Ticket/_ManageTicketsModal.cshtml" model="Model.Movies"><partial />
+</div>
 
-<h2>@Model.Name - Cinema Movie Program</h2>
+@* <h2>@Model.Name - Cinema Movie Program</h2>
 
 <p><strong>Location:</strong> @Model.Location</p>
 
@@ -24,3 +28,4 @@ else
 }
 
 <a asp-action="Index" class="btn btn-secondary mt-3">Back to Cinemas</a>
+ *@

@@ -4,13 +4,14 @@ using CinemaWebAppOriginal.ViewModels.Ticket;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CinemaWebAppOriginal.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     [Authorize]
-    public class TicketApiController : BaseController
+    public class TicketApiController : ControllerBase
     {
         private readonly ITicketService ticketService;
         private readonly ICinemaService cinemaService;
@@ -64,5 +65,12 @@ namespace CinemaWebAppOriginal.Controllers
 
             return Ok("Available tickets updated successfully.");
         }
+
+
+
+
+        // Method to get the user id from the claims
+        private string GetUserId()
+           => User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }

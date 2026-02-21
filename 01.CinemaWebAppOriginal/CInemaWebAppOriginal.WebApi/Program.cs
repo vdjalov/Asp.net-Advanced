@@ -15,9 +15,25 @@ namespace CInemaWebAppOriginal.WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
             string connectionString = builder.Configuration.GetConnectionString("SQLServer");
+
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
+            });
+
+            
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+            builder.Services.AddOpenApi();
+            builder.Services.AddSwaggerGen();
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;              // prevents client-side script access
+                options.Cookie.SameSite = SameSiteMode.None;       // allows cross-site cookies
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // must use HTTPS
             });
 
             builder.Services.AddCors(cfg =>
@@ -31,12 +47,8 @@ namespace CInemaWebAppOriginal.WebApi
                           .AllowAnyHeader();
                 });
             });
-            // Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
-            builder.Services.AddSwaggerGen();
+           
 
             builder.Services.AddScoped<IRepository<Movie, int>, BaseRepository<Movie, int>>();
             builder.Services.AddScoped<IRepository<Ticket, int>, BaseRepository<Ticket, int>>();

@@ -55,11 +55,7 @@ namespace CinemaWebAppOriginal
             builder.Services.AddScoped<IManagerService, ManagerService>();
             builder.Services.AddScoped<ITicketService, TicketService>();
 
-            builder.Services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.SameSite = SameSiteMode.None;       // allows cross-site cookies
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // must use HTTPS
-            });
+           
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
             {

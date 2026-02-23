@@ -23,23 +23,10 @@ namespace CinemaWebAppOriginal
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            //builder.Services.AddCors(cfg =>
-            //{
-            //    cfg.AddPolicy("AllowAll", policy =>
-            //    {
-            //        policy.WithOrigins("http://localhost:7289")
-            //              .AllowAnyOrigin()
-            //              .AllowAnyMethod()
-            //              .AllowAnyHeader();
-            //    });
-            //});
-
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
             });
-
-           
 
             
             builder.Services.AddScoped<IRepository<Movie, int>, BaseRepository<Movie, int>>();

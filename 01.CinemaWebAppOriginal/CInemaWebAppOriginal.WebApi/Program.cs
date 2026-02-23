@@ -29,21 +29,21 @@ namespace CInemaWebAppOriginal.WebApi
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.HttpOnly = true;              // prevents client-side script access
-                options.Cookie.SameSite = SameSiteMode.None;       // allows cross-site cookies
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // must use HTTPS
-            });
+            //builder.Services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.Cookie.HttpOnly = true;              // prevents client-side script access
+            //    options.Cookie.SameSite = SameSiteMode.None;       // allows cross-site cookies
+            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // must use HTTPS
+            //});
 
             builder.Services.AddCors(cfg =>
             {
                 cfg.AddPolicy("AllowWebApp", policy =>
                 {
-                    policy.WithOrigins("http://localhost:7289")
-                          //.AllowAnyOrigin()
+                    policy//.WithOrigins("https://localhost:7289")
+                          .AllowAnyOrigin()
                           .AllowAnyMethod()
-                          .AllowCredentials()
+                          //.AllowCredentials()
                           .AllowAnyHeader();
                 });
             });
@@ -82,7 +82,7 @@ namespace CInemaWebAppOriginal.WebApi
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+           
             app.MapControllers();
 
             app.Run();

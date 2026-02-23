@@ -25,4 +25,8 @@
 	  <ProjectReference Include="..\CinemaWebAppOriginal.Data.Models\CinemaWebAppOriginal.Data.Models.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Extensions\" />
+	</ItemGroup>
+
 </Project>

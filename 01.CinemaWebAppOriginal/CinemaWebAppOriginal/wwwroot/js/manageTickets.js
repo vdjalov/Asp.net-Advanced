@@ -39,7 +39,7 @@ function renderMoviesInModal(movies)
                             </thead>
                             <tbody>`;
 
-    movies.forEach(movie => {
+    movies.movies.forEach(movie => {
         modalHtml += `
             <tr>
                 <td>${movie.title}</td>

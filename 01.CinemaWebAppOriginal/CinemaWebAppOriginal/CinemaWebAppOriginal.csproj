@@ -23,11 +23,10 @@
   
   <ItemGroup>
     <ProjectReference Include="..\CinemaWebAppOriginal.Common\CinemaWebAppOriginal.Common.csproj" />
-    <ProjectReference Include="..\CinemaWebAppOriginal.Data.Models\CinemaWebAppOriginal.Data.Models.csproj" />
     <ProjectReference Include="..\CinemaWebAppOriginal.Data\CinemaWebAppOriginal.Data.csproj" />
+    <ProjectReference Include="..\CinemaWebAppOriginal.Extensions\CinemaWebAppOriginal.Extensions.csproj" />
     <ProjectReference Include="..\CinemaWebAppOriginal.Services.Data\CinemaWebAppOriginal.Services.Data.csproj" />
     <ProjectReference Include="..\CinemaWebAppOriginal.ViewModels\CinemaWebAppOriginal.ViewModels.csproj" />
-    <ProjectReference Include="..\Infrastructure\CinemaWebAppOriginal.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

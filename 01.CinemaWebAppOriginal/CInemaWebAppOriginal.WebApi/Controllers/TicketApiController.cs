@@ -9,7 +9,7 @@ namespace CInemaWebAppOriginal.WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+   //[Authorize]
     public class TicketApiController : ControllerBase
     {
         private readonly ITicketService ticketService;
@@ -28,12 +28,12 @@ namespace CInemaWebAppOriginal.WebApi.Controllers
         [HttpGet("GetMoviesByCinema/{cinemaId}")]
         public async Task<IActionResult> GetMoviesByCinema(int cinemaId)
         {
-            string userId = this.GetUserId();
-            bool isUserManager = await this.managerService.IsUserAManager(userId);
-            if (!isUserManager)
-            {
-                return Unauthorized("Only Managers can access this endpoint.");
-            }
+            //string userId = this.GetUserId();
+            //bool isUserManager = await this.managerService.IsUserAManager(userId);
+            //if (!isUserManager)
+            //{
+            //    return Unauthorized("Only Managers can access this endpoint.");
+            //}
 
             CinemaProgramViewModel movies = await this.cinemaService.GetCinemaProgramByIdAsync(cinemaId);
 

@@ -23,7 +23,8 @@ namespace ProductsAPI
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
             //builder.Services.AddEndpointsApiExplorer();
-            //builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<IProductService, ProductService>(); // adding it as a service
 

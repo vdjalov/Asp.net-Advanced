@@ -18,5 +18,9 @@ namespace CinemaWebAppOriginal.Data.Models
         [ForeignKey(nameof(MovieId))]
         public Movie Movie { get; set; } = null!;
 
+        public int AvailableTickets { get; set; }
+
+        public bool IsDeleted { get; set; }
+
     }
 }

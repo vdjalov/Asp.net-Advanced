@@ -8,6 +8,7 @@
   </Folder>
   <Folder Name="/Web/">
     <Project Path="CinemaWebAppOriginal.ViewModels/CinemaWebAppOriginal.ViewModels.csproj" Id="d4ee2ef8-74d9-410f-a3bd-f731a4d4568e" />
+    <Project Path="CInemaWebAppOriginal.WebApi/CInemaWebAppOriginal.WebApi.csproj" Id="e7e042ee-7321-4887-bcc0-2fef67fdb1e8" />
     <Project Path="CinemaWebAppOriginal/CinemaWebAppOriginal.csproj" />
     <Project Path="Infrastructure/CinemaWebAppOriginal.Infrastructure.csproj" Id="3c1cc42f-c5ab-4c0a-a32f-5e903c9faea4" />
   </Folder>

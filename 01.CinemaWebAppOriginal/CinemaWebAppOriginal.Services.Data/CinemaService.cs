@@ -1,7 +1,8 @@
 ﻿using CinemaWebAppOriginal.Data.Models;
 using CinemaWebAppOriginal.Infrastructure.Repositories.Contracts;
 using CinemaWebAppOriginal.Services.Data.Interfaces;
-using CinemaWebAppOriginal.ViewModels;
+using CinemaWebAppOriginal.ViewModels.Cinema;
+using CinemaWebAppOriginal.ViewModels.Movie;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaWebAppOriginal.Services.Data
@@ -47,7 +48,7 @@ namespace CinemaWebAppOriginal.Services.Data
         }
 
         // Snatching the cinema by id and returning it to Details View
-        public async Task<CinemaDetailsViewModel> GetCinemaDetailsByIdAsync(int id)
+        public async Task<CinemaProgramViewModel> GetCinemaDetailsByIdAsync(int id)
         {
             Cinema ?cinema = await this.cinemaRepository.GetAllAttached()
                                          .Where(c => !c.IsDeleted)
@@ -55,19 +56,26 @@ namespace CinemaWebAppOriginal.Services.Data
                                          .ThenInclude(cm => cm.Movie)
                                          .FirstOrDefaultAsync(c => c.Id == id);
 
-            CinemaDetailsViewModel ?model = null; 
+            CinemaProgramViewModel ?model = null; 
 
             if (cinema != null)
             {
-                     model = new CinemaDetailsViewModel()
+                model = new CinemaProgramViewModel()
                 {
                     Id = cinema.Id,
                     Name = cinema.Name,
                     Location = cinema.Location,
-                    Movies = cinema.CinemaMovies.Select(cm => new MovieProgramViewModel
+                    Movies = cinema.CinemaMovies
+                    .Where(cm => cm.Movie.IsDeleted == false)
+                    .Select(cm => new MovieInCinemaViewModel
                     {
+                        Id = cm.Movie.Id,
+                        CinemaId = cinema.Id,
                         Title = cm.Movie.Title,
-                        Duration = cm.Movie.Duration,
+                        Genre = cm.Movie.Genre,
+                        Duration = $"{cm.Movie.Duration} + min",
+                        Description = cm.Movie.Description,
+                        AvailableTickets = 0 // Check to see how are tickets being tracked in the DB and implement this property accordingly
                     }).ToList(),
                 };
 
@@ -144,6 +152,34 @@ namespace CinemaWebAppOriginal.Services.Data
             return true;
         }
 
-        
+        public async Task<CinemaProgramViewModel> GetCinemaProgramByIdAsync(int id) // Snatching the cinema by id and returning it's movie program
+        {
+          Cinema ?cinema = this.cinemaRepository.GetAllAttached()
+                                         .Where(c => c.Id == id && c.IsDeleted == false)
+                                         .Include(c => c.CinemaMovies)
+                                         .ThenInclude(cm => cm.Movie)
+                                         .FirstOrDefault();
+            if (cinema == null)
+            {
+                return null;
+            }
+
+            CinemaProgramViewModel viewModel = new CinemaProgramViewModel()
+            {
+                Id = cinema.Id,
+                Name = cinema.Name,
+                Location = cinema.Location,
+                Movies = cinema.CinemaMovies.Select(cm => new MovieInCinemaViewModel
+                {
+                    Id = cm.Movie.Id,
+                    Title = cm.Movie.Title,
+                    Genre = cm.Movie.Genre,
+                    Duration = $"{cm.Movie.Duration} min",
+                    Description = cm.Movie.Description,
+                }).ToList(),
+            };
+
+            return viewModel;
+        }
     }
 }

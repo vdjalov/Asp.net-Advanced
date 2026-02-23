@@ -23,12 +23,25 @@ namespace CinemaWebAppOriginal
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            //builder.Services.AddCors(cfg =>
+            //{
+            //    cfg.AddPolicy("AllowAll", policy =>
+            //    {
+            //        policy.WithOrigins("http://localhost:7289")
+            //              .AllowAnyOrigin()
+            //              .AllowAnyMethod()
+            //              .AllowAnyHeader();
+            //    });
+            //});
+
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
             });
 
+           
 
+            
             builder.Services.AddScoped<IRepository<Movie, int>, BaseRepository<Movie, int>>();
             builder.Services.AddScoped<IRepository<Ticket, int>, BaseRepository<Ticket, int>>();
             builder.Services.AddScoped<IRepository<Cinema, int>, BaseRepository<Cinema, int>>();
@@ -40,6 +53,9 @@ namespace CinemaWebAppOriginal
             builder.Services.AddScoped<IMovieService, MovieService>();
             builder.Services.AddScoped<IWatchlistService, WatchlistService>();
             builder.Services.AddScoped<IManagerService, ManagerService>();
+            builder.Services.AddScoped<ITicketService, TicketService>();
+
+           
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
             {
@@ -68,6 +84,7 @@ namespace CinemaWebAppOriginal
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
+               
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
@@ -77,11 +94,14 @@ namespace CinemaWebAppOriginal
             app.UseStaticFiles();
 
             app.UseRouting();
+            //app.UseCors("AllowAll");
 
             app.UseAuthentication();
             app.UseAuthorization();
 
+
             app.MapRazorPages();
+            app.MapControllers();
 
             app.MapControllerRoute(
                 name: "default",

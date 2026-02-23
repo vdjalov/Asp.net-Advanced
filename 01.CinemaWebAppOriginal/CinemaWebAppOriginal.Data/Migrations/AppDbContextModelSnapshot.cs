@@ -119,6 +119,12 @@ namespace CinemaWebAppOriginal.Data.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
+                    b.Property<int>("AvailableTickets")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("CinemaId", "MovieId");
 
                     b.HasIndex("MovieId");

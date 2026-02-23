@@ -1,5 +1,5 @@
 ﻿using CinemaWebAppOriginal.Services.Data.Interfaces;
-using CinemaWebAppOriginal.ViewModels;
+using CinemaWebAppOriginal.ViewModels.Cinema;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -70,8 +70,9 @@ namespace CinemaWebAppOriginal.Controllers
         public async Task<IActionResult> Details(int id)
         {
 
-            CinemaDetailsViewModel model = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
+            //CinemaDetailsViewModel model = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
 
+            CinemaProgramViewModel model = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
             if (model == null)
             {
                 return RedirectToAction(nameof(Index));
@@ -159,7 +160,7 @@ namespace CinemaWebAppOriginal.Controllers
             {
                 return RedirectToAction(nameof(Manage));
             }
-            CinemaDetailsViewModel cinema = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
+            CinemaProgramViewModel cinema = await this.cinemaService.GetCinemaDetailsByIdAsync(id);
 
             if (cinema == null)
             {
@@ -193,5 +194,22 @@ namespace CinemaWebAppOriginal.Controllers
 
             return RedirectToAction(nameof(Manage));
         }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> ViewProgram(int id)
+        {
+           
+            CinemaProgramViewModel model = await this.cinemaService.GetCinemaProgramByIdAsync(id);
+
+            if (model == null)
+            {
+                TempData["ErrorMessage"] = "Cinema not found.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
+        }
+
     }
 }

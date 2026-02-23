@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CinemaWebAppOriginal.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260209122907_update-after-stuck-manager-added")]
-    partial class updateafterstuckmanageradded
+    [Migration("20260220082430_after-pull")]
+    partial class afterpull
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,6 +98,9 @@ namespace CinemaWebAppOriginal.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -118,6 +121,12 @@ namespace CinemaWebAppOriginal.Data.Migrations
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
+
+                    b.Property<int>("AvailableTickets")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("CinemaId", "MovieId");
 
@@ -173,6 +182,9 @@ namespace CinemaWebAppOriginal.Data.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
@@ -381,7 +393,7 @@ namespace CinemaWebAppOriginal.Data.Migrations
                     b.HasOne("CinemaWebAppOriginal.Data.Models.Movie", "Movie")
                         .WithMany("CinemaMovies")
                         .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cinema");

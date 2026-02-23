@@ -1,8 +1,11 @@
 ﻿@using CinemaWebAppOriginal.Services.Data.Interfaces
 
-@{
-    var footerYear = DateTime.Now.Year;
+@{   
     string userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+    int currentYear = DateTime.Now.Year;
+    int releaseYear = 2024; // Replace with actual release year of the application
+    string footerNote = (releaseYear == currentYear) ? $"{releaseYear}" : $"{releaseYear} - {currentYear}";
 }
 @inject IManagerService managerService;
 
@@ -15,6 +18,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CinemaWebAppOriginal.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 </head>
 <body>
     <header>
@@ -27,9 +31,9 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                       @*  <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                        </li> *@
                         @if (User?.Identity?.IsAuthenticated ?? false) // show only if user is logged in and a manager
                         {
                             @if (!string.IsNullOrEmpty(userId) && await this.managerService.IsUserAManager(userId)) 
@@ -42,6 +46,7 @@
                             <ul class="dropdown-menu" aria-labelledby="managerDropdown">
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Cinema" asp-action="Manage">Manage Cinemas</a></li>
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Movie" asp-action="Manage">Manage Movies</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Ticket" asp-action="Manage">Manage Tickets</a></li>
                             </ul>
                         </li>
                             }
@@ -54,10 +59,18 @@
                         </li>
                         
                         @if (User?.Identity?.IsAuthenticated ?? false) // show only if user is logged in
-                        {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Watchlist" asp-action="Index">Watchlist</a>
-                        </li>
+                        { 
+                            if (!await this.managerService.IsUserAManager(userId))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Watchlist" asp-action="Index">Watchlist</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Tickets</a>
+                                </li>
+
+                            }
+                           
                         }
                         
                     </ul>
@@ -75,7 +88,7 @@
     <!-- Footer Section -->        
     <footer class="footer bg-light text-muted mt-5">
         <div class="container text-center">
-            <p>&copy; 2024 - @footerYear CinemaWebAppOriginal | Bringing Cinema and Movies to You</p>
+            <p>&copy; @footerNote CinemaWebAppOriginal | Bringing Cinema and Movies to You</p>
             <p>
                 Follow us on:
                 <a href="#" class="text-muted mx-1">Facebook</a> 

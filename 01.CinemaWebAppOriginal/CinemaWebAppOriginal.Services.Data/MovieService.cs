@@ -1,7 +1,8 @@
 ﻿using CinemaWebAppOriginal.Data.Models;
 using CinemaWebAppOriginal.Infrastructure.Repositories.Contracts;
 using CinemaWebAppOriginal.Services.Data.Interfaces;
-using CinemaWebAppOriginal.ViewModels;
+using CinemaWebAppOriginal.ViewModels.Cinema;
+using CinemaWebAppOriginal.ViewModels.Movie;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaWebAppOriginal.Services.Data
@@ -32,6 +33,7 @@ namespace CinemaWebAppOriginal.Services.Data
                 MovieId = movieId,
                 MovieTitle = movie.Title,
                 Cinemas = this.cinemaRepository.GetAllAttached()
+                        .Where(c => !c.IsDeleted)
                         .Select(cb => new CinemaCheckBoxItem
                         {
                             Id = cb.Id,
@@ -63,6 +65,8 @@ namespace CinemaWebAppOriginal.Services.Data
                     {
                         CinemaId = cinema.Id,
                         MovieId = model.MovieId,
+                        AvailableTickets = 0,
+                        IsDeleted = false,
                     };
                    
                   await cinemaMovieRepository.AddAndSaveAsync(cinemaMovie);

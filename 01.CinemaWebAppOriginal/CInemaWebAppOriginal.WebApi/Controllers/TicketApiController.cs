@@ -43,12 +43,12 @@ namespace CInemaWebAppOriginal.WebApi.Controllers
         [HttpPost("UpdateAvailableTickets")]
         public async Task<IActionResult> UpdateAvailableTickets([FromBody] SetAvailableTicketsViewModel model)
         {
-            string userId = this.GetUserId();
-            bool isUserManager = await this.managerService.IsUserAManager(userId);
-            if (!isUserManager)
-            {
-                return Unauthorized("Only Managers can access this endpoint.");
-            }
+            //string userId = this.GetUserId();
+            //bool isUserManager = await this.managerService.IsUserAManager(userId);
+            //if (!isUserManager)
+            //{
+            //    return Unauthorized("Only Managers can access this endpoint.");
+            //}
 
             if(ModelState.IsValid == false)
             {

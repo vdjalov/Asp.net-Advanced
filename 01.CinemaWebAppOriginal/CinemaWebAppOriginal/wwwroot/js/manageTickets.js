@@ -68,7 +68,7 @@ function updateAvailableTickets(movieId, cinemaId)
 {
     const availableTickets = document.getElementById(`availableTickets-${movieId}`).value;
 
-    fetch('/api/TicketApi/UpdateAvailableTickets', {
+    fetch('https://localhost:7196/api/TicketApi/UpdateAvailableTickets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

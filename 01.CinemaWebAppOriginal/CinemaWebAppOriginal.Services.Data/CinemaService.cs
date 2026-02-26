@@ -172,6 +172,7 @@ namespace CinemaWebAppOriginal.Services.Data
                 Movies = cinema.CinemaMovies.Select(cm => new MovieInCinemaViewModel
                 {
                     Id = cm.Movie.Id,
+                    CinemaId = cinema.Id,
                     Title = cm.Movie.Title,
                     Genre = cm.Movie.Genre,
                     Duration = $"{cm.Movie.Duration} min",

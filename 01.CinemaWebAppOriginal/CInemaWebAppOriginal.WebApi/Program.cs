@@ -12,9 +12,11 @@ namespace CInemaWebAppOriginal.WebApi
     public class Program
     {
         public static void Main(string[] args)
-        {
+        {https://localhost:7289
             var builder = WebApplication.CreateBuilder(args);
             string connectionString = builder.Configuration.GetConnectionString("SQLServer");
+            string cinemaWebaAppOrigin = builder.Configuration["ClientOrigins:CinemaWebApp"];
+
 
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
@@ -23,32 +25,34 @@ namespace CInemaWebAppOriginal.WebApi
 
             
             // Add services to the container.
-
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
 
-            //builder.Services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.Cookie.HttpOnly = true;              // prevents client-side script access
-            //    options.Cookie.SameSite = SameSiteMode.None;       // allows cross-site cookies
-            //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // must use HTTPS
-            //});
 
             builder.Services.AddCors(cfg =>
             {
-                cfg.AddPolicy("AllowWebApp", policy =>
+                cfg.AddPolicy("AllowAny", policy =>
                 {
-                    policy//.WithOrigins("https://localhost:7289")
-                          .AllowAnyOrigin()
+                    policy.AllowAnyOrigin()
                           .AllowAnyMethod()
-                          //.AllowCredentials()
                           .AllowAnyHeader();
                 });
-            });
 
-           
+                if(!string.IsNullOrWhiteSpace(cinemaWebaAppOrigin))
+                {
+                    cfg.AddPolicy("AllowWebApp", policy =>
+                    {
+                        policy.WithOrigins("https://localhost:7289")    //or we can use cinemaWebAppOriginal
+                            //.AllowAnyOrigin()
+                              .AllowAnyMethod()
+                              .AllowCredentials()
+                              .AllowAnyHeader();
+                    });
+                }
+                
+            });
 
             builder.Services.AddScoped<IRepository<Movie, int>, BaseRepository<Movie, int>>();
             builder.Services.AddScoped<IRepository<Ticket, int>, BaseRepository<Ticket, int>>();
@@ -75,6 +79,7 @@ namespace CInemaWebAppOriginal.WebApi
                     options.SwaggerEndpoint("/openapi/v1.json", "ProductsAPI v1");
                 });
             }
+
             app.UseRouting();
 
             app.UseCors("AllowWebApp");

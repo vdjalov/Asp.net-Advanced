@@ -75,7 +75,7 @@ namespace CinemaWebAppOriginal.Services.Data
                         Genre = cm.Movie.Genre,
                         Duration = $"{cm.Movie.Duration} + min",
                         Description = cm.Movie.Description,
-                        AvailableTickets = 0 // Check to see how are tickets being tracked in the DB and implement this property accordingly
+                        AvailableTickets = cm.AvailableTickets // Check to see how are tickets being tracked in the DB and implement this property accordingly
                     }).ToList(),
                 };
 
@@ -177,6 +177,7 @@ namespace CinemaWebAppOriginal.Services.Data
                     Genre = cm.Movie.Genre,
                     Duration = $"{cm.Movie.Duration} min",
                     Description = cm.Movie.Description,
+                    AvailableTickets = cm.AvailableTickets // Check to see how are tickets being tracked in the DB and implement this property accordingly
                 }).ToList(),
             };
 

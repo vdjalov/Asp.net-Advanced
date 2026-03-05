@@ -6,16 +6,17 @@ using CinemaWebAppOriginal.Infrastructure.Repositories.Contracts;
 using CinemaWebAppOriginal.Services.Data;
 using CinemaWebAppOriginal.Services.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.WebRequestMethods;
 
 namespace CInemaWebAppOriginal.WebApi
 {
     public class Program
     {
         public static void Main(string[] args)
-        {https://localhost:7289
+        {
             var builder = WebApplication.CreateBuilder(args);
             string connectionString = builder.Configuration.GetConnectionString("SQLServer");
-            string cinemaWebaAppOrigin = builder.Configuration["ClientOrigins:CinemaWebApp"];
+            string cinemaWebAppOriginal = builder.Configuration.GetValue<string>("ClientOrigins:CinemaWebAppOriginal");
 
 
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -40,18 +41,17 @@ namespace CInemaWebAppOriginal.WebApi
                           .AllowAnyHeader();
                 });
 
-                if(!string.IsNullOrWhiteSpace(cinemaWebaAppOrigin))
+                if(!string.IsNullOrWhiteSpace(cinemaWebAppOriginal))
                 {
                     cfg.AddPolicy("AllowWebApp", policy =>
                     {
-                        policy.WithOrigins("https://localhost:7289")    //or we can use cinemaWebAppOriginal
+                        policy.WithOrigins(cinemaWebAppOriginal)    //or we can use cinemaWebAppOriginal
                             //.AllowAnyOrigin()
-                              .AllowAnyMethod()
-                              .AllowCredentials()
-                              .AllowAnyHeader();
+                                .AllowAnyMethod()
+                                .AllowCredentials()
+                                .AllowAnyHeader();
                     });
                 }
-                
             });
 
             builder.Services.AddScoped<IRepository<Movie, int>, BaseRepository<Movie, int>>();

@@ -19,6 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 options.UseSqlServer(connectionString);
             });
+
             return services;
         }
 
@@ -45,7 +46,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Lockout.AllowedForNewUsers = true;
             })
              .AddEntityFrameworkStores<AppDbContext>();
-
 
             return services;
         }

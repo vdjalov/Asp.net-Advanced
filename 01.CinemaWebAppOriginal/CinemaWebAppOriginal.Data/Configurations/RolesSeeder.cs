@@ -11,9 +11,9 @@ namespace CinemaWebAppOriginal.Data.Configurations
 
             string[] roleNames = { "Admin", "User", "Manager" };
 
-            foreach (string roleName in roleNames)
+            foreach (var roleName in roleNames)
             {
-                bool roleExists = roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult();
+                var roleExists = roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult();
                 if (!roleExists)
                 {
                     var result = roleManager.CreateAsync(new IdentityRole<Guid> {Name = roleName }).GetAwaiter().GetResult();

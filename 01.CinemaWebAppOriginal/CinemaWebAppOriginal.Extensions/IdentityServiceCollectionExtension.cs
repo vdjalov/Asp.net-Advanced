@@ -26,6 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
+
             services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
             {
                
@@ -69,7 +70,6 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IWatchlistService, WatchlistService>();
             services.AddScoped<IManagerService, ManagerService>();
             services.AddScoped<ITicketService, TicketService>();
-
 
             return services;
         }

@@ -8,6 +8,8 @@ namespace CinemaWebAppOriginal
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
+            builder.Services.AddRazorPages();   
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             // Adding davtabase

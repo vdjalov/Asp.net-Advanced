@@ -6,6 +6,6 @@ namespace CinemaWebAppOriginal.Services.Data.Interfaces
 {
     public interface IManagerService
     {
-        Task<bool> IsUserAManager(string userid);
+        Task<bool> IsUserAManager(Guid userid);
     }
 }

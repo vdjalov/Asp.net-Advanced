@@ -177,7 +177,7 @@ namespace CinemaWebAppOriginal.Services.Data
                     Genre = cm.Movie.Genre,
                     Duration = $"{cm.Movie.Duration} min",
                     Description = cm.Movie.Description,
-                    AvailableTickets = cm.AvailableTickets // Check to see how are tickets being tracked in the DB and implement this property accordingly
+                    AvailableTickets = cm.AvailableTickets // shows available tickets for each movie in the cinema program
                 }).ToList(),
             };
 

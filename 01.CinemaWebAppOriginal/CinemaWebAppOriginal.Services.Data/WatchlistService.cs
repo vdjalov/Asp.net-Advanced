@@ -20,7 +20,7 @@ namespace CinemaWebAppOriginal.Services.Data
 
 
         // Getting all movies in the user's watchlist by querying the UserMovie repository with the userId and projecting the results into a collection of WatchlistViewModel
-        public async Task<ICollection<WatchlistViewModel>> GetAllWatchlistMoviesForUserAsync(string userId)
+        public async Task<ICollection<WatchlistViewModel>> GetAllWatchlistMoviesForUserAsync(Guid userId)
         {
 
             ICollection<WatchlistViewModel> watchlistMovies = await userMovieRepository.GetAllAttached()
@@ -40,7 +40,7 @@ namespace CinemaWebAppOriginal.Services.Data
         }
 
         //adding a movie to the user's watchlist by creating a new UserMovie entity with the userId and movieId and saving it to the UserMovie repository
-        public async Task AddMovieToUserWatchlistAsync(int movieId, string userId)
+        public async Task AddMovieToUserWatchlistAsync(int movieId, Guid userId)
         {
             UserMovie newUserMovie = new UserMovie()
             {
@@ -53,13 +53,13 @@ namespace CinemaWebAppOriginal.Services.Data
 
 
         // Checking if a movie is already added in the user's watchlist by querying the UserMovie repository with the userId and movieId
-        public async Task<bool> CheckIfMovieAlreadyAddedInWatchlistAync(int movieId, string userId)
+        public async Task<bool> CheckIfMovieAlreadyAddedInWatchlistAync(int movieId, Guid userId)
         {
             return await this.userMovieRepository.GetAllAttached()
                .AnyAsync(um => um.UserId == userId && um.MovieId == movieId);
         }
 
-        public async Task RemoveMovieFromUserWatchlistAsync(int movieId, string userId)
+        public async Task RemoveMovieFromUserWatchlistAsync(int movieId, Guid userId)
         {
            UserMovie userMovie = this.userMovieRepository.GetAllAttached().FirstOrDefault(um => um.UserId == userId && um.MovieId == movieId);
           

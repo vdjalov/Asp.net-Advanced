@@ -1,7 +1,7 @@
 ﻿@using CinemaWebAppOriginal.Services.Data.Interfaces
 
 @{   
-    string userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    Guid userId = Guid.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
 
     int currentYear = DateTime.Now.Year;
     int releaseYear = 2024; // Replace with actual release year of the application
@@ -36,7 +36,7 @@
                         </li> *@
                         @if (User?.Identity?.IsAuthenticated ?? false) // show only if user is logged in and a manager
                         {
-                            @if (!string.IsNullOrEmpty(userId) && await this.managerService.IsUserAManager(userId)) 
+                            @if (!string.IsNullOrEmpty(userId.ToString()) && await this.managerService.IsUserAManager(userId)) 
                             {
 
                         <li class="nav-item dropdown">

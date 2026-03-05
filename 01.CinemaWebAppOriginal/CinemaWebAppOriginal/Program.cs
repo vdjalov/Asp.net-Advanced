@@ -1,3 +1,5 @@
+using CinemaWebAppOriginal.Data.Configurations;
+
 namespace CinemaWebAppOriginal
 {
     public class Program
@@ -18,10 +20,17 @@ namespace CinemaWebAppOriginal
 
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                RolesSeeder.SeedRoles(services);    // Seed the roles into the database from RolesSeeder class in Configurations folder
+            }
+
+            
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
-               
+
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();

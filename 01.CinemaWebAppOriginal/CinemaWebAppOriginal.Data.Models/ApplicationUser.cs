@@ -2,7 +2,7 @@
 
 namespace CinemaWebAppOriginal.Data.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<Guid>
     {
         public virtual ICollection<Ticket> Tickets { get; set; } = new List<Ticket>();
         public virtual ICollection<UserMovie> Watchlist { get; set; } = new List<UserMovie>();

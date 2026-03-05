@@ -32,7 +32,14 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
+
             bool isUserManager = await this.managerService.IsUserAManager(userId);
 
             if (!isUserManager)
@@ -47,7 +54,14 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(MovieViewModel viewModel)
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
+
             bool isUserManager = await this.managerService.IsUserAManager(userId);
 
             if (!isUserManager)
@@ -84,7 +98,14 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpGet]
         public async Task<IActionResult> AddToProgram(int movieId)
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
+
             bool isUserManager = await this.managerService.IsUserAManager(userId);
 
             if (!isUserManager)
@@ -109,7 +130,14 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToProgram(AddMovieToCinemaProgramViewModel model)
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
+
             bool isUserManager = await this.managerService.IsUserAManager(userId);
 
             if (!isUserManager)
@@ -132,7 +160,14 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
+
             bool isUserManager = await this.managerService.IsUserAManager(userId);
 
             if (!isUserManager)
@@ -149,7 +184,14 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
+
             bool isUserManager = await this.managerService.IsUserAManager(userId);
 
             if (!isUserManager)
@@ -171,7 +213,14 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditMovieViewModel viewModel)
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
+
             bool isUserManager = await this.managerService.IsUserAManager(userId);
             if (!isUserManager)
             {
@@ -196,7 +245,14 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpGet]
         public async Task<IActionResult> SoftDelete(int id)
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
+
             bool isUserManager = await this.managerService.IsUserAManager(userId);
             if (!isUserManager)
             {
@@ -225,7 +281,14 @@ namespace CinemaWebAppOriginal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SoftDeleteConfirmed(int id, DeleteMovieViewModel viewModel)
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
+
             bool isUserManager = await this.managerService.IsUserAManager(userId);
             if (!isUserManager)
             {

@@ -23,7 +23,17 @@ namespace CinemaWebAppOriginal.Controllers
         [Authorize]
         public async Task<IActionResult> BuyTicket(int cinemaId, int movieId)
         {
-            bool isManager = await this.managerService.IsUserAManager(this.GetUserId());
+
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            bool isManager = await this.managerService.IsUserAManager(userId);
+
             if (isManager)
             {
                 TempData["ErrorMessage"] = "Managers can not buy tickets.";
@@ -34,7 +44,7 @@ namespace CinemaWebAppOriginal.Controllers
             {
                 CinemaId = cinemaId,
                 MovieId = movieId,
-                UserId = this.GetUserId(),
+                UserId = userId.ToString(),
             };
 
             return View(viewModel);
@@ -44,7 +54,16 @@ namespace CinemaWebAppOriginal.Controllers
         [Authorize]
         public async Task<IActionResult> BuyTicket(BuyTicketViewModel viewModel)
         {
-            bool isManager = await this.managerService.IsUserAManager(this.GetUserId());
+
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            bool isManager = await this.managerService.IsUserAManager(userId);
             if (isManager)
             {
                 TempData["ErrorMessage"] = "Managers can not buy tickets.";
@@ -71,7 +90,8 @@ namespace CinemaWebAppOriginal.Controllers
         [Authorize]
         public async Task<IActionResult> MyTickets()
         {
-            Guid userId = Guid.Parse(this.GetUserId());
+            Guid userId = this.GetUserIdAsGuid();
+
 
             if (userId == Guid.Empty)
             {
@@ -88,7 +108,16 @@ namespace CinemaWebAppOriginal.Controllers
         [Authorize]
         public async Task<IActionResult> Manage()
         {
-            bool isManager = await this.managerService.IsUserAManager(this.GetUserId());
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Home");
+            }
+
+
+            bool isManager = await this.managerService.IsUserAManager(userId);
             if (!isManager)
             {
                 TempData["ErrorMessage"] = "Only managers can access this page.";
@@ -103,7 +132,15 @@ namespace CinemaWebAppOriginal.Controllers
         [Authorize]
         public async Task<IActionResult> SetAvailableTickets(int cinemaId, int movieId)
         {
-            bool isManager = await this.managerService.IsUserAManager(this.GetUserId());
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            bool isManager = await this.managerService.IsUserAManager(userId);
             if (!isManager)
             {
                 TempData["ErrorMessage"] = "Only managers can access this page.";
@@ -123,7 +160,15 @@ namespace CinemaWebAppOriginal.Controllers
         [Authorize]
         public async Task<IActionResult> SetAvailableTickets(SetAvailableTicketsViewModel viewModel)
         {
-            bool isManager = await this.managerService.IsUserAManager(this.GetUserId());
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            bool isManager = await this.managerService.IsUserAManager(userId);
             if (!isManager)
             {
                 TempData["ErrorMessage"] = "Only managers can access this page.";

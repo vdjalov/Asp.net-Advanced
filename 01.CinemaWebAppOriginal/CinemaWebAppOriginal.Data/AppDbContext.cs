@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-
+﻿using CinemaWebAppOriginal.Data.Configurations;
 using CinemaWebAppOriginal.Data.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using CinemaWebAppOriginal.Data.Configurations;
-using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace CinemaWebAppOriginal.Data;
 
-public class AppDbContext : IdentityDbContext<ApplicationUser>
+public class AppDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)   {}
 

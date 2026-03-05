@@ -4,6 +4,7 @@ using CinemaWebAppOriginal.Infrastructure.Repositories;
 using CinemaWebAppOriginal.Infrastructure.Repositories.Contracts;
 using CinemaWebAppOriginal.Services.Data;
 using CinemaWebAppOriginal.Services.Data.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -25,8 +26,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDefaultIdentity<ApplicationUser>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
             {
+               
                 //SignIn settings
                 options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedEmail = false;
@@ -45,7 +47,10 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
             })
-             .AddEntityFrameworkStores<AppDbContext>();
+             .AddEntityFrameworkStores<AppDbContext>()
+             .AddRoles<IdentityRole<Guid>>()
+             .AddSignInManager<SignInManager<ApplicationUser>>()
+             .AddUserManager<UserManager<ApplicationUser>>();
 
             return services;
         }

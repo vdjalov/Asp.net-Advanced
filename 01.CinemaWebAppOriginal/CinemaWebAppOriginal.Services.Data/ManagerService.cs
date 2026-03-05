@@ -17,13 +17,9 @@ namespace CinemaWebAppOriginal.Services.Data
 
 
         // check if user is a manager
-        public async Task<bool> IsUserAManager(string userid)
+        public async Task<bool> IsUserAManager(Guid userid)
         {
-            if(String.IsNullOrWhiteSpace(userid))
-            {
-                return false;
-            }
-
+            
             bool result = await this.managerRepository.GetAllAttached().AnyAsync(m => m.UserId == userid);
 
             return result;

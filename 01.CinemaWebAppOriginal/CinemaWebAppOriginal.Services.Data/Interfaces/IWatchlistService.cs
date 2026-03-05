@@ -4,10 +4,10 @@ namespace CinemaWebAppOriginal.Services.Data.Interfaces
 {
     public interface IWatchlistService
     {
-        Task<ICollection<WatchlistViewModel>> GetAllWatchlistMoviesForUserAsync(string userId);
-        Task AddMovieToUserWatchlistAsync(int movieId, string userId);
-        Task<bool> CheckIfMovieAlreadyAddedInWatchlistAync(int movieId, string userId);
-        Task RemoveMovieFromUserWatchlistAsync(int movieId, string userId);
+        Task<ICollection<WatchlistViewModel>> GetAllWatchlistMoviesForUserAsync(Guid userId);
+        Task AddMovieToUserWatchlistAsync(int movieId, Guid userId);
+        Task<bool> CheckIfMovieAlreadyAddedInWatchlistAync(int movieId, Guid userId);
+        Task RemoveMovieFromUserWatchlistAsync(int movieId, Guid userId);
 
     }
 }

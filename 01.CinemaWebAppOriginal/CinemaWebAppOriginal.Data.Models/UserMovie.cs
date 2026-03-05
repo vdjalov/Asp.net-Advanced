@@ -10,7 +10,7 @@ namespace CinemaWebAppOriginal.Data.Models
     public class UserMovie
     {
         [Required]
-        public string UserId { get; set; } = null!; // links user who added the movie
+        public Guid UserId { get; set; } // links user who added the movie
 
         [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; } = null!;

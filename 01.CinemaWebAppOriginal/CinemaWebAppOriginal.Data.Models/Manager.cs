@@ -14,7 +14,7 @@ namespace CinemaWebAppOriginal.Data.Models
         [Required]
         [Range(7, 15)]
         public short WorkPhoneNumber { get; set; }
-        public string UserId { get; set; } = null!;
+        public Guid UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; } = null!;

@@ -23,7 +23,7 @@ namespace CinemaWebAppOriginal.Data.Models
         [ForeignKey(nameof(MovieId))]
         public Movie Movie { get; set; } = null!;
 
-        public string UserId { get; set; } = null!;
+        public Guid UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; } = null!;

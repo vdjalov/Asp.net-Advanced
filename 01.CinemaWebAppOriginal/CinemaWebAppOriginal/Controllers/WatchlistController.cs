@@ -18,7 +18,13 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
 
             ICollection<WatchlistViewModel> watchlistMovies = 
                 await this.watchlistService.GetAllWatchlistMoviesForUserAsync(userId);
@@ -32,7 +38,13 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToWatchlist(int movieId)
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if(userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
 
             bool checkIfAlreadyExists = await this.watchlistService.CheckIfMovieAlreadyAddedInWatchlistAync(movieId, userId);
 
@@ -53,7 +65,13 @@ namespace CinemaWebAppOriginal.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveFromWatchlist(int movieId)
         {
-            string userId = this.GetUserId();
+            Guid userId = this.GetUserIdAsGuid();
+
+            if (userId == Guid.Empty)
+            {
+                TempData["ErrorMessage"] = "User not found. Please log in again.";
+                return RedirectToAction("Index", "Movie");
+            }
 
             bool checkIfAlreadyExists = await this.watchlistService.CheckIfMovieAlreadyAddedInWatchlistAync(movieId, userId);
 

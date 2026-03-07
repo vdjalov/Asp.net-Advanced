@@ -30,7 +30,8 @@ namespace CinemaWebAppOriginal.Controllers
                 return RedirectToAction("Index", "Movie");
             }
 
-            ViewBag.isUserManager = await this.managerService.IsUserAManager(ViewBag.userId);
+            ViewBag.userId = userId.ToString();
+            ViewBag.isUserManager = await this.managerService.IsUserAManager(userId);
 
             IEnumerable<AllCinemaViewModel> cinemaIndexViewModels = await this.cinemaService.GetAllOrderedByLocationAsync();
 
@@ -205,6 +206,7 @@ namespace CinemaWebAppOriginal.Controllers
             }
 
             bool isUserManager = await this.managerService.IsUserAManager(userId);
+
             if (!isUserManager)
             {
                 return RedirectToAction(nameof(Manage));

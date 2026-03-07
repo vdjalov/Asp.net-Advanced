@@ -5,6 +5,7 @@ using CinemaWebAppOriginal.Infrastructure.Repositories.Contracts;
 using CinemaWebAppOriginal.Services.Data;
 using CinemaWebAppOriginal.Services.Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -50,6 +51,7 @@ namespace Microsoft.Extensions.DependencyInjection
             })
              .AddEntityFrameworkStores<AppDbContext>()
              .AddRoles<IdentityRole<Guid>>()
+             .AddDefaultTokenProviders()
              .AddSignInManager<SignInManager<ApplicationUser>>()
              .AddUserManager<UserManager<ApplicationUser>>();
 
@@ -70,7 +72,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IWatchlistService, WatchlistService>();
             services.AddScoped<IManagerService, ManagerService>();
             services.AddScoped<ITicketService, TicketService>();
-
+            services.AddTransient<IEmailSender, EmailSender>();
             return services;
         }
     }

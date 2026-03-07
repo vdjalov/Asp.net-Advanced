@@ -73,6 +73,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IManagerService, ManagerService>();
             services.AddScoped<ITicketService, TicketService>();
             services.AddTransient<IEmailSender, EmailSender>();
+
             return services;
         }
     }

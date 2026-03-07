@@ -45,8 +45,8 @@ namespace CInemaWebAppOriginal.WebApi
                 {
                     cfg.AddPolicy("AllowWebApp", policy =>
                     {
-                        policy.WithOrigins(cinemaWebAppOriginal)    //or we can use cinemaWebAppOriginal
-                            //.AllowAnyOrigin()
+                        policy.WithOrigins(cinemaWebAppOriginal)    //we use cinemaWebAppOriginal in appsettings.json to avoid hardcoding the url of the frontend application
+                                                                    //.AllowAnyOrigin()
                                 .AllowAnyMethod()
                                 .AllowCredentials()
                                 .AllowAnyHeader();

@@ -6,7 +6,6 @@ using CinemaWebAppOriginal.Infrastructure.Repositories.Contracts;
 using CinemaWebAppOriginal.Services.Data;
 using CinemaWebAppOriginal.Services.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using static System.Net.WebRequestMethods;
 
 namespace CInemaWebAppOriginal.WebApi
 {
@@ -46,7 +45,7 @@ namespace CInemaWebAppOriginal.WebApi
                     cfg.AddPolicy("AllowWebApp", policy =>
                     {
                         policy.WithOrigins(cinemaWebAppOriginal)    //we use cinemaWebAppOriginal in appsettings.json to avoid hardcoding the url of the frontend application
-                                                                    //.AllowAnyOrigin()
+                              //.AllowAnyOrigin()
                                 .AllowAnyMethod()
                                 .AllowCredentials()
                                 .AllowAnyHeader();

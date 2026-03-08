@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CinemaWebAppOriginal.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CinemaWebAppOriginal.Data.Configurations
@@ -21,6 +22,43 @@ namespace CinemaWebAppOriginal.Data.Configurations
                     {
                         throw new Exception($"Failed to create role: {roleName}");
                     }
+                }
+            }
+        }
+
+        public static void  AssignAdminRole(IServiceProvider serviceProvider)
+        {
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            string adminEmail = "admin@example.com";
+            string adminPassword = "Admin@123";
+
+            var adminUser = userManager.FindByEmailAsync(adminEmail).GetAwaiter().GetResult();
+
+            if (adminUser == null)
+            {
+                adminUser = new ApplicationUser
+                {
+                    UserName = adminEmail,
+                    Email = adminEmail
+                };
+
+                var createUserResult = userManager.CreateAsync(adminUser, adminPassword).GetAwaiter().GetResult();
+
+                if (!createUserResult.Succeeded)
+                {
+                    throw new Exception($"Failed to create admin user: {adminEmail}");
+                }
+            }
+
+            bool isInRole = userManager.IsInRoleAsync(adminUser, "Admin").GetAwaiter().GetResult();
+
+            if (!isInRole)
+            {
+                var addRoleResult = userManager.AddToRoleAsync(adminUser, "Admin").GetAwaiter().GetResult();
+                if (!addRoleResult.Succeeded)
+                {
+                    throw new Exception($"Failed to assign admin role to user: {adminEmail}");
                 }
             }
         }

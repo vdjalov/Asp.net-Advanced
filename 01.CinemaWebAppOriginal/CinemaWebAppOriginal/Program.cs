@@ -26,6 +26,7 @@ namespace CinemaWebAppOriginal
             {
                 var services = scope.ServiceProvider;
                 RolesSeeder.SeedRoles(services);    // Seed the roles into the database from RolesSeeder class in Configurations folder
+                RolesSeeder.AssignAdminRole(services);
             }
 
             
@@ -44,11 +45,30 @@ namespace CinemaWebAppOriginal
             app.UseRouting();
             
             app.UseAuthentication();
+
+            app.Use((context, next) =>
+            {
+                
+                if (context.User.Identity?.IsAuthenticated ==true && context.Request.Path == "/")
+                {
+                    if (context.User.IsInRole("Admin"))
+                    {
+                        context.Response.Redirect("/Admin/Home/Index");
+                        return Task.CompletedTask;
+                    }
+                }
+                return next();
+            });
+
             app.UseAuthorization();
 
 
             app.MapRazorPages();
             app.MapControllers();
+
+            app.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"); // Map the route for areas (Admin and User)
 
             app.MapControllerRoute(
                 name: "default",

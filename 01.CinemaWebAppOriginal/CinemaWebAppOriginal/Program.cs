@@ -49,7 +49,7 @@ namespace CinemaWebAppOriginal
             app.Use((context, next) =>
             {
                 
-                if (context.User.Identity?.IsAuthenticated ==true && context.Request.Path == "/")
+                if (context.User.Identity?.IsAuthenticated ==true && context.Request.Path == "/") // If the user is authenticated and trying to access the root URL
                 {
                     if (context.User.IsInRole("Admin"))
                     {

@@ -7,7 +7,8 @@ namespace CinemaWebAppOriginal.Services.Data.Interfaces
 {
     public interface ITicketService
     {
-        Task<bool> BuyTicketAsync(int cinemaId, int movieId, string userId);
+        
+        Task<bool> BuyTicketAsync(BuyTicketViewModel model, Guid guidId);
         Task<bool> DecreaseAvailableTicketsAsync(int cinemaId, int movieId, int numberOfTickets);
         Task<IEnumerable<UserTicketViewModel>> GetUserTicketsAsync(Guid userId);
         Task<bool> SetAvailableTicketsAsync(int cinemaId, int movieId, int availableTickets);

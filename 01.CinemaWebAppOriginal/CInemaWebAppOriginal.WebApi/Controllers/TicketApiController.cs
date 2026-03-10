@@ -65,6 +65,39 @@ namespace CInemaWebAppOriginal.WebApi.Controllers
             return Ok("Available tickets updated successfully.");
         }
 
+        [HttpPost("BuyTicket")]
+        public async Task<IActionResult> BuyTicket([FromBody] BuyTicketViewModel model)
+        {
+            if(ModelState.IsValid == false)
+            {
+                return BadRequest("Invalid data. Please ensure all required fields are provided and valid.");
+            }
+
+            string userId = this.GetUserId();
+
+            if(string.IsNullOrWhiteSpace(userId))
+            {
+                return Unauthorized("User must be authenticated to buy a ticket.");
+            }
+
+            Guid guidId = Guid.Parse(userId);
+
+            bool isUserManager = await this.managerService.IsUserAManager(guidId);
+
+            if (!isUserManager)
+            {
+                return Unauthorized("Only Managers can access this endpoint.");
+            }
+
+            bool result = await this.ticketService.BuyTicketAsync(model,guidId);
+
+            if (!result)
+            {
+                return BadRequest("Failed to buy ticket. Please check the provided cinema and movie IDs, and ensure there are available tickets.");
+            }
+            return Ok("Ticket bought successfully.");
+        }
+
 
 
 

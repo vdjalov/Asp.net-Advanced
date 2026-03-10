@@ -15,7 +15,8 @@ namespace CinemaWebAppOriginal.Services.Data
             cinemaMovieRepository = _cinemaMovieRepository;
         }
 
-        public Task<bool> BuyTicketAsync(int cinemaId, int movieId, string userId)
+      
+        public Task<bool> BuyTicketAsync(BuyTicketViewModel model, Guid guidId)
         {
             throw new NotImplementedException();
         }

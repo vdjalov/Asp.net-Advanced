@@ -18,6 +18,10 @@ namespace CinemaWebAppOriginal.ViewModels.Ticket
         [Range(typeof(decimal), MinPrice, MaxPrice, ErrorMessage = InvalidPriceMessage)]
         public decimal Price { get; set; }
 
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Please select at least one ticket.")]
+        public int Quantity { get; set; }
+
 
 
     }

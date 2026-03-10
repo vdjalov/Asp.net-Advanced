@@ -2,6 +2,7 @@
 using CinemaWebAppOriginal.Infrastructure.Repositories.Contracts;
 using CinemaWebAppOriginal.Services.Data.Interfaces;
 using CinemaWebAppOriginal.ViewModels.Ticket;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaWebAppOriginal.Services.Data
@@ -9,14 +10,16 @@ namespace CinemaWebAppOriginal.Services.Data
     public class TicketService : ITicketService
     {
         private readonly IRepository<CinemaMovie, object> cinemaMovieRepository;
+        private readonly IRepository<Ticket, int> ticketRepository;
 
-        public TicketService(IRepository<CinemaMovie, object> _cinemaMovieRepository)
+        public TicketService(IRepository<CinemaMovie, object> _cinemaMovieRepository, IRepository<Ticket, int> _ticketRepository)
         {
-            cinemaMovieRepository = _cinemaMovieRepository;
+            this.cinemaMovieRepository = _cinemaMovieRepository;
+            this.ticketRepository = _ticketRepository;
         }
 
       
-        public Task<bool> BuyTicketAsync(BuyTicketViewModel model, Guid guidId)
+        public Task<bool> BuyTicketAsync([FromBody]BuyTicketViewModel model, Guid guidId)
         {
             throw new NotImplementedException();
         }

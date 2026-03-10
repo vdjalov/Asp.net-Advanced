@@ -76,7 +76,7 @@ namespace CinemaWebAppOriginal.Controllers
                 return RedirectToAction(nameof(Index), "Home");
             }
 
-            bool success = await this.ticketService.BuyTicketAsync(viewModel.CinemaId, viewModel.MovieId, viewModel.UserId);
+            bool success = await this.ticketService.BuyTicketAsync(viewModel, userId);
             if (!success)
             {
                 TempData["ErrorMessage"] = "Failed to buy ticket. Please try again.";

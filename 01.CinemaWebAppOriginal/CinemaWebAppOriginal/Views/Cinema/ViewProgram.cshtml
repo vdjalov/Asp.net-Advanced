@@ -15,6 +15,7 @@
 
 <div id="manageTicketsModalContainer">
     <partial name="~/Views/Ticket/_ManageTicketsModal.cshtml" model="Model.Movies"><partial />
+    @* <partial name="~/Views/Ticket/_BuyTicketModal.cshtml" model="Model.Movies"><partial /> *@
 </div>
 
 <div class="container mt-5">
@@ -41,9 +42,18 @@
                             }
                             else
                             {
-                                <button type="button" class="btn btn-primary btn-sm" onclick="buyTicketsModal('@Model.Id')">
+                              @*   <button type="button" class="btn btn-primary btn-sm" onclick="buyTicketsModal('@movie.Id')">
                                     <i class="bi bi-ticket-perforated"></i> Buy Ticket
-                                </button>
+                                </button> *@
+                                
+                                <div class="card-footer" bg-transparent text-centre>
+                                    <a href="javascript:void(0)" class="btn btn-success btn-sm w-75 buy-ticket-btn"
+                                       data-cinema-id='@Model.Id' 
+                                       data-movie-id="@movie.Id">
+                                        <i class="bi bi-ticket-perforated"></i> Buy Ticket
+                                    </a>
+                                </div>
+                              
                             }
 
                         </div>
@@ -59,13 +69,16 @@
 </div>
 
 
-<script src="~/js/manageTickets.js"></script>
+<script src="~/js/manageTickets.js" asp-append-version="true"></script>
+@* <script src="~/js/buyTickets.js" asp-append-version="true"></script> *@
 
 <div class="text-center mt-5">
     <a asp-action="Index" class="btn btn-secondary btn-lg px-4">
         <i class="bi bi-arrow-left-circle"></i> Back to Cinemas
     </a>
 </div>
+
+@await Html.PartialAsync("~/Views/Ticket/_BuyTicketModal.cshtml")
 
 
 

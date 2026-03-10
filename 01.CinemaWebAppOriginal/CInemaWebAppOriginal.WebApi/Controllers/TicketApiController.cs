@@ -1,28 +1,29 @@
-﻿using CinemaWebAppOriginal.Services.Data.Interfaces;
+﻿using CinemaWebAppOriginal.Data.Models;
+using CinemaWebAppOriginal.Services.Data.Interfaces;
 using CinemaWebAppOriginal.ViewModels.Cinema;
 using CinemaWebAppOriginal.ViewModels.Ticket;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace CInemaWebAppOriginal.WebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-   //[Authorize]
+    //[Authorize]
     public class TicketApiController : ControllerBase
     {
         private readonly ITicketService ticketService;
         private readonly ICinemaService cinemaService;
         private readonly IManagerService managerService;
-
-        public TicketApiController(ITicketService _ticketService, ICinemaService _cinemaService, IManagerService _managerService)
+     
+        public TicketApiController(ITicketService _ticketService, ICinemaService _cinemaService, 
+            IManagerService _managerService)
         {
             this.ticketService = _ticketService;
             this.cinemaService = _cinemaService;
             this.managerService = _managerService;
         }
-
 
 
         [HttpGet("GetMoviesByCinema/{cinemaId}")]
@@ -66,21 +67,24 @@ namespace CInemaWebAppOriginal.WebApi.Controllers
         }
 
         [HttpPost("BuyTicket")]
-        public async Task<IActionResult> BuyTicket([FromBody] BuyTicketViewModel model)
+        public async Task<IActionResult> BuyTicket([FromBody] BuyTicketRequest model)
         {
             if(ModelState.IsValid == false)
             {
                 return BadRequest("Invalid data. Please ensure all required fields are provided and valid.");
             }
 
+           // var user = await this.userManager.GetUserAsync(User);
+            var isAuth = User.Identity?.IsAuthenticated ?? false;
             string userId = this.GetUserId();
+            var userIdddd = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            if(string.IsNullOrWhiteSpace(userId))
+            if (string.IsNullOrWhiteSpace(userId))
             {
                 return Unauthorized("User must be authenticated to buy a ticket.");
             }
 
-            Guid guidId = Guid.Parse(userId);
+            Guid guidId = Guid.TryParse(userId, out Guid parsedGuid) ? parsedGuid : Guid.Empty;
 
             bool isUserManager = await this.managerService.IsUserAManager(guidId);
 
@@ -89,7 +93,14 @@ namespace CInemaWebAppOriginal.WebApi.Controllers
                 return Unauthorized("Only Managers can access this endpoint.");
             }
 
-            bool result = await this.ticketService.BuyTicketAsync(model,guidId);
+            BuyTicketViewModel viewModel = new BuyTicketViewModel
+            {
+                CinemaId = model.CinemaId,
+                MovieId = model.MovieId,
+                Quantity = model.Quantity,
+            };
+
+            bool result = await this.ticketService.BuyTicketAsync(viewModel,guidId);
 
             if (!result)
             {
@@ -100,9 +111,8 @@ namespace CInemaWebAppOriginal.WebApi.Controllers
 
 
 
-
         // Method to get the user id from the claims
         private string GetUserId()
-           => User.FindFirstValue(ClaimTypes.NameIdentifier);
+           => User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
     }
 }

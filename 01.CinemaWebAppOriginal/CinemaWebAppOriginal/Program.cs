@@ -26,7 +26,7 @@ namespace CinemaWebAppOriginal
             {
                 var services = scope.ServiceProvider;
                 RolesSeeder.SeedRoles(services);    // Seed the roles into the database from RolesSeeder class in Configurations folder
-                RolesSeeder.AssignAdminRole(services);
+                RolesSeeder.AssignAdminRole(services); // create roles and assign admin role to the user with email "
             }
 
             

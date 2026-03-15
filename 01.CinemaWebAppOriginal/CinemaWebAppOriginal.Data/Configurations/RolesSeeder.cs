@@ -17,7 +17,7 @@ namespace CinemaWebAppOriginal.Data.Configurations
                 var roleExists = roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult();
                 if (!roleExists)
                 {
-                    var result = roleManager.CreateAsync(new IdentityRole<Guid> {Name = roleName }).GetAwaiter().GetResult();
+                    IdentityResult result = roleManager.CreateAsync(new IdentityRole<Guid> {Name = roleName }).GetAwaiter().GetResult();
                     if (!result.Succeeded)
                     {
                         throw new Exception($"Failed to create role: {roleName}");

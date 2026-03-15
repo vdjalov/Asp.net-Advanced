@@ -14,5 +14,6 @@ namespace CinemaWebAppOriginal.ViewModels.Movie
         public DateTime ReleaseDate { get; set; } = DateTime.Today;
         public string Director { get; set; } = null!;
         public int Duration { get; set; }
+        public string ?ImageUrl { get; set; }
     }
 }

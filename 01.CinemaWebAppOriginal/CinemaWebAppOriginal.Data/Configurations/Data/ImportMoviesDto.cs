@@ -6,7 +6,7 @@ namespace CinemaWebAppOriginal.Data.Configurations.Data
 {
     public class ImportMoviesDto
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required(ErrorMessage = TitleRequiredMessage)]
         [MaxLength(TitleMaxLength)]

@@ -4,11 +4,20 @@ namespace CinemaWebAppOriginal
 {
     public class Program
     {
+        // D:\SoftUni\Github-repos\ASP.Net Advanced\Asp.net-advanced-exercises\01.CinemaWebAppOriginal\CinemaWebAppOriginal.Data\Configurations\Data
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            string jsonFilePath = Path.Combine(AppContext.BaseDirectory, "movies.json"); // Get the path to the movies.json file in the root directory of the project
+            string? jsonFilePath = Path.Combine(
+            AppContext.BaseDirectory,
+            "Data",
+            "CinemaWebAppOriginal.Data",
+            "Configuration",
+            "Data",
+            "movies.json"
+        );
 
+           
             builder.Services.AddRazorPages();   
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -27,7 +36,11 @@ namespace CinemaWebAppOriginal
                 var services = scope.ServiceProvider;
                 Seeder.SeedRoles(services);    // Seed the roles into the database from RolesSeeder class in Configurations folder
                 Seeder.AssignAdminRole(services); // create roles and assign admin role to the user with email "
-                Seeder.ImportMovies(services, jsonFilePath); // import movies from movies.json file into the database
+                if(jsonFilePath != null)
+                {
+                    Seeder.ImportMovies(services, jsonFilePath); // import movies from movies.json file into the database
+                }
+                
             }
 
             
@@ -76,6 +89,8 @@ namespace CinemaWebAppOriginal
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
+
+   
         }
     }
 }

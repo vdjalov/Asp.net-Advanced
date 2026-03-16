@@ -18,8 +18,8 @@ namespace CinemaWebAppOriginal.Data.Models
 
         public string Description { get; set; } = null!;
 
-        [Required]
-        public string ImageUrl { get; set; } = null!;
+        
+        public string ?ImageUrl { get; set; }
 
         public bool IsDeleted { get; set; } = false;
 

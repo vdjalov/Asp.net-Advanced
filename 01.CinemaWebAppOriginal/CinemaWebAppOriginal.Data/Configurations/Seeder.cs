@@ -1,11 +1,14 @@
 ﻿using CinemaWebAppOriginal.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json;
 
 namespace CinemaWebAppOriginal.Data.Configurations
 {
-    public static class RolesSeeder
+    public static class Seeder
     {
+
+        // import roles available in the system
         public static void SeedRoles(IServiceProvider serviceProvider)
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
@@ -26,6 +29,8 @@ namespace CinemaWebAppOriginal.Data.Configurations
             }
         }
 
+
+        // import admin user and assign admin role
         public static void  AssignAdminRole(IServiceProvider serviceProvider)
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
@@ -62,5 +67,36 @@ namespace CinemaWebAppOriginal.Data.Configurations
                 }
             }
         }
+
+        //import movies from json file
+        public static async Task ImportMovies(IServiceProvider serviceProvider, string jsonFilePath) 
+        {
+            await using AppDbContext context = serviceProvider.GetRequiredService<AppDbContext>();
+
+            if(context.Movies.Any())
+            {
+                return; // Movies already exist, no need to import
+            }
+
+            try
+            {
+                string jsonData = await File.ReadAllTextAsync(jsonFilePath);
+                var movies = JsonSerializer.Deserialize<List<Movie>>(jsonData);
+
+                if(movies == null || movies.Count == 0) 
+                {
+                    throw new Exception("No movies found in the JSON file.");
+                }
+
+                await context.Movies.AddRangeAsync(movies);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to import movies: {ex.Message}");
+            }
+        }
+
+
     }
 }

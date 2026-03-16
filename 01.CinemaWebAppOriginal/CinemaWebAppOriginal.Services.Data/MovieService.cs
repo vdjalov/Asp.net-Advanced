@@ -115,6 +115,7 @@ namespace CinemaWebAppOriginal.Services.Data
                         ReleaseDate = m.ReleaseDate,
                         Director = m.Director,
                         Duration = m.Duration,
+                        ImageUrl= m.ImageUrl,
                     }).ToListAsync();
 
             return moviesInDb;

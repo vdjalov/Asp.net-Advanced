@@ -7,7 +7,7 @@ namespace CinemaWebAppOriginal
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            string jsonFilePath = Path.Combine(AppContext.BaseDirectory, "movies.json"); // Get the path to the movies.json file in the root directory of the project
 
             builder.Services.AddRazorPages();   
             // Add services to the container.
@@ -25,8 +25,9 @@ namespace CinemaWebAppOriginal
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                RolesSeeder.SeedRoles(services);    // Seed the roles into the database from RolesSeeder class in Configurations folder
-                RolesSeeder.AssignAdminRole(services); // create roles and assign admin role to the user with email "
+                Seeder.SeedRoles(services);    // Seed the roles into the database from RolesSeeder class in Configurations folder
+                Seeder.AssignAdminRole(services); // create roles and assign admin role to the user with email "
+                Seeder.ImportMovies(services, jsonFilePath); // import movies from movies.json file into the database
             }
 
             

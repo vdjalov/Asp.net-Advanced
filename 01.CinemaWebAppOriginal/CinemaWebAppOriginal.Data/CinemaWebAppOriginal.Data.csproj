@@ -22,6 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\CinemaWebAppOriginal.Common\CinemaWebAppOriginal.Common.csproj" />
 	  <ProjectReference Include="..\CinemaWebAppOriginal.Data.Models\CinemaWebAppOriginal.Data.Models.csproj" />
 	</ItemGroup>
 

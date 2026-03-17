@@ -73,15 +73,14 @@ namespace CinemaWebAppOriginal.Data.Configurations
         }
 
         //import movies from json file
-        public static async Task ImportMovies(IServiceProvider serviceProvider, string jsonFilePath) 
+        public static async Task ImportMoviesAsync(IServiceProvider serviceProvider, string jsonFilePath) 
         {
             
-
-            await using AppDbContext context = serviceProvider.GetRequiredService<AppDbContext>();
+            AppDbContext context = serviceProvider.GetRequiredService<AppDbContext>();
             List<Movie> moviesInDb = await context.Movies.ToListAsync();
 
-            try
-            {
+            //try
+            //{
                 string jsonData = await File.ReadAllTextAsync(jsonFilePath);
                 ImportMoviesDto[] movies = JsonSerializer.Deserialize<ImportMoviesDto[]>(jsonData);
 
@@ -125,11 +124,11 @@ namespace CinemaWebAppOriginal.Data.Configurations
 
                 await context.SaveChangesAsync();
             }
-            catch (Exception ex)
-            {
-                throw new Exception($"Failed to import movies: {ex.Message}");
-            }
-        }
+            //catch (Exception ex)
+            //{
+            //    throw new Exception($"Failed to import movies: {ex.Message}");
+            //}
+        //}
 
 
         private static bool IsValid(object obj) // check if model is valid based on data annotations

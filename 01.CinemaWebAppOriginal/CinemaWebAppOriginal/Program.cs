@@ -1,3 +1,4 @@
+using CinemaWebAppOriginal.Data;
 using CinemaWebAppOriginal.Data.Configurations;
 
 namespace CinemaWebAppOriginal
@@ -5,19 +6,11 @@ namespace CinemaWebAppOriginal
     public class Program
     {
         // D:\SoftUni\Github-repos\ASP.Net Advanced\Asp.net-advanced-exercises\01.CinemaWebAppOriginal\CinemaWebAppOriginal.Data\Configurations\Data
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            string? jsonFilePath = Path.Combine(
-            AppContext.BaseDirectory,
-            "Data",
-            "CinemaWebAppOriginal.Data",
-            "Configuration",
-            "Data",
-            "movies.json"
-        );
+            string? jsonFilePath = Path.Combine(AppContext.BaseDirectory, "Data", "movies.json"); // fetching the path of movies.json file to import movies into the database
 
-           
             builder.Services.AddRazorPages();   
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -36,9 +29,10 @@ namespace CinemaWebAppOriginal
                 var services = scope.ServiceProvider;
                 Seeder.SeedRoles(services);    // Seed the roles into the database from RolesSeeder class in Configurations folder
                 Seeder.AssignAdminRole(services); // create roles and assign admin role to the user with email "
+
                 if(jsonFilePath != null)
                 {
-                    Seeder.ImportMovies(services, jsonFilePath); // import movies from movies.json file into the database
+                    await Seeder.ImportMoviesAsync(services, jsonFilePath); // import movies from movies.json file into the database
                 }
                 
             }

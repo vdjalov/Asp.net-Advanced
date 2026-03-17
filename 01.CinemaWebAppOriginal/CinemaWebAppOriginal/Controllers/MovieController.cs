@@ -20,9 +20,11 @@ namespace CinemaWebAppOriginal.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchQuery = null)
         {
-            ICollection<AllMoviesViewModel> movies = await this.movieService.GetAllMoviesAsync();
+
+            ICollection<AllMoviesViewModel> movies = await this.movieService.GetAllMoviesAsync(searchQuery);
+            ViewData["SearchQuery"] = searchQuery; // Preserve the search query in the view data to display it in the search box
 
             return View(movies);
         }

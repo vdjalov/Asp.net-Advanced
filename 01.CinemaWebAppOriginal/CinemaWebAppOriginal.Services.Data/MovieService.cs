@@ -102,7 +102,7 @@ namespace CinemaWebAppOriginal.Services.Data
             await this.movieRepository.AddAndSaveAsync(movie);
         }
 
-        public async Task<ICollection<AllMoviesViewModel>> GetAllMoviesAsync()
+        public async Task<ICollection<AllMoviesViewModel>> GetAllMoviesAsync(string? searchQuery = null)
         {
 
             ICollection<AllMoviesViewModel> moviesInDb = await this.movieRepository.GetAllAttached()
@@ -117,6 +117,12 @@ namespace CinemaWebAppOriginal.Services.Data
                         Duration = m.Duration,
                         ImageUrl= m.ImageUrl,
                     }).ToListAsync();
+
+            if(!string.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.ToLower().Trim();
+                moviesInDb = moviesInDb.Where(m => m.Title.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
 
             return moviesInDb;
         }

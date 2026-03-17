@@ -103,8 +103,10 @@ namespace CinemaWebAppOriginal.Services.Data
         }
 
 
-        public async Task<ICollection<AllMoviesViewModel>> GetAllMoviesAsync(string? searchQuery = null, 
-                                                                             string? genre = null, int? releaseYear = null)
+        public async Task<(ICollection<AllMoviesViewModel> Movies, int TotalPages)> GetAllMoviesAsync(
+            string? searchQuery = null, 
+            string? genre = null, int? releaseYear = null, 
+            int pageNumber = 1, int pageSize = 5)
         {
             ICollection<AllMoviesViewModel> moviesInDb = await this.movieRepository.GetAllAttached()
                     .Where(m => !m.IsDeleted)

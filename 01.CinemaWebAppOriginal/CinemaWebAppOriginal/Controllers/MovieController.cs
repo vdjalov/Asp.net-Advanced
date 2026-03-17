@@ -20,11 +20,14 @@ namespace CinemaWebAppOriginal.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index(string? searchQuery = null)
+        public async Task<IActionResult> Index(string? searchQuery = null, string? genre = null, int? releaseYear = null)
         {
 
-            ICollection<AllMoviesViewModel> movies = await this.movieService.GetAllMoviesAsync(searchQuery);
+            ICollection<AllMoviesViewModel> movies = await this.movieService.GetAllMoviesAsync(searchQuery, genre, releaseYear);
+
             ViewData["SearchQuery"] = searchQuery; // Preserve the search query in the view data to display it in the search box
+            ViewData["Genre"] = genre; // Preserve the genre filter in the view data to display it in the genre dropdown
+            ViewData["ReleaseYear"] = releaseYear; // Preserve the release year filter in the view data to display it in the release year dropdown
 
             return View(movies);
         }

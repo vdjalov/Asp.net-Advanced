@@ -12,14 +12,32 @@
 }
 
 <h2>All Movies</h2>
-<form asp-action="Index" method="get" class="mb-4">
-    <div class="input-group">
-        <input type="text"
-               name="searchQuery"
-               class="form-control"
-               placeholder="Search by title..."
-               value="@ViewData["SearchQuery"]" />
-        <button type="submit" class="btn btn-primary">Search</button>
+<form method="get" asp-action="Index" class="mb-4">
+    <div class="row">
+        <div class="col">
+            <input type="text"
+                   name="searchQuery"
+                   class="form-control"
+                   placeholder="Search by title..."
+                   value="@ViewData["SearchQuery"]" />
+        </div>
+        <div class="col">
+            <input type="text"
+                   name="genre"
+                   class="form-control"
+                   placeholder="Filter by genre..."
+                   value="@ViewData["Genre"]" />
+        </div>
+        <div class="col">
+            <input type="number"
+                   name="releaseYear"
+                   class="form-control"
+                   placeholder="Filter by year..."
+                   value="@ViewData["ReleaseYear"]" />
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
     </div>
 </form>
 

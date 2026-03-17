@@ -102,9 +102,10 @@ namespace CinemaWebAppOriginal.Services.Data
             await this.movieRepository.AddAndSaveAsync(movie);
         }
 
-        public async Task<ICollection<AllMoviesViewModel>> GetAllMoviesAsync(string? searchQuery = null)
-        {
 
+        public async Task<ICollection<AllMoviesViewModel>> GetAllMoviesAsync(string? searchQuery = null, 
+                                                                             string? genre = null, int? releaseYear = null)
+        {
             ICollection<AllMoviesViewModel> moviesInDb = await this.movieRepository.GetAllAttached()
                     .Where(m => !m.IsDeleted)
                     .Select(m => new AllMoviesViewModel
@@ -118,14 +119,26 @@ namespace CinemaWebAppOriginal.Services.Data
                         ImageUrl= m.ImageUrl,
                     }).ToListAsync();
 
-            if(!string.IsNullOrEmpty(searchQuery))
+            if(!string.IsNullOrWhiteSpace(searchQuery)) // filter by title
             {
                 searchQuery = searchQuery.ToLower().Trim();
                 moviesInDb = moviesInDb.Where(m => m.Title.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
+            if (!string.IsNullOrWhiteSpace(genre)) // filter by genre
+            {
+                searchQuery = genre.ToLower().Trim();
+                moviesInDb = moviesInDb.Where(m => m.Genre.ToLower().Contains(genre, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if(releaseYear.HasValue) // filter by release year
+            {
+                moviesInDb = moviesInDb.Where(m => m.ReleaseDate.Year == releaseYear.Value).ToList();
+            }
+
             return moviesInDb;
         }
+
 
         public async Task<MovieViewModel> GetMovieDetailsById(int id)
         {
@@ -143,7 +156,6 @@ namespace CinemaWebAppOriginal.Services.Data
                 }).FirstOrDefaultAsync();
 
             return movie;
-            
         }
 
         public async Task<EditMovieViewModel> GetMovieEditModelByIdAsync(int id)

@@ -138,7 +138,13 @@ namespace CinemaWebAppOriginal.Services.Data
                 moviesInDb = moviesInDb.Where(m => m.ReleaseDate.Year == releaseYear.Value).ToList();
             }
 
-            return moviesInDb;
+            int totalMovies = moviesInDb.Count();
+            int totalPages = (int)Math.Ceiling(totalMovies / (double)pageSize);
+
+            // apply pagination
+            moviesInDb = moviesInDb.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            return (moviesInDb, totalPages);
         }
 
 

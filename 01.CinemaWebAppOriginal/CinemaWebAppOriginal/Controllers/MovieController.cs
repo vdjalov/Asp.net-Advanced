@@ -1,4 +1,5 @@
-﻿using CinemaWebAppOriginal.Services.Data.Interfaces;
+﻿using CinemaWebAppOriginal.Data.Models;
+using CinemaWebAppOriginal.Services.Data.Interfaces;
 using CinemaWebAppOriginal.ViewModels.Movie;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,14 +21,18 @@ namespace CinemaWebAppOriginal.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index(string? searchQuery = null, string? genre = null, int? releaseYear = null)
+        public async Task<IActionResult> Index(string? searchQuery = null, string? genre = null, int? releaseYear = null,
+                                                        int pageNumber = 1, int pageSize = 5)
         {
 
-            ICollection<AllMoviesViewModel> movies = await this.movieService.GetAllMoviesAsync(searchQuery, genre, releaseYear);
+            var (movies, totalPages) = await this.movieService.GetAllMoviesAsync(searchQuery, genre, releaseYear, pageNumber, pageSize);
 
             ViewData["SearchQuery"] = searchQuery; // Preserve the search query in the view data to display it in the search box
             ViewData["Genre"] = genre; // Preserve the genre filter in the view data to display it in the genre dropdown
             ViewData["ReleaseYear"] = releaseYear; // Preserve the release year filter in the view data to display it in the release year dropdown
+            ViewData["CurrentPage"] = pageNumber;
+            ViewData["TotalPages"] = totalPages;
+
 
             return View(movies);
         }
@@ -180,7 +185,7 @@ namespace CinemaWebAppOriginal.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ICollection<AllMoviesViewModel> movies = await this.movieService.GetAllMoviesAsync();
+            var (movies, totalPages)  = await this.movieService.GetAllMoviesAsync();
 
             return View(movies);
         }

@@ -245,5 +245,24 @@ namespace CinemaWebAppOriginal.Services.Data
 
             return viewModel;
         }
+
+      
+        public async Task<ICollection<AllMoviesViewModel>> GetOnlyAllMoviesAsync()
+        {
+            ICollection<AllMoviesViewModel> allMovies = await this.movieRepository.GetAllAttached()
+             .Where(m => !m.IsDeleted)
+             .Select(m => new AllMoviesViewModel
+             {
+                 Id = m.Id,
+                 Title = m.Title,
+                 Genre = m.Genre,
+                 ReleaseDate = m.ReleaseDate,
+                 Director = m.Director,
+                 Duration = m.Duration,
+                 ImageUrl = m.ImageUrl,
+             }).ToListAsync();
+
+            return allMovies;
+        }
     }
 }

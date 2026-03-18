@@ -70,7 +70,6 @@ namespace CinemaWebAppOriginal
 
             app.UseAuthorization();
 
-
             app.MapRazorPages();
             app.MapControllers();
 

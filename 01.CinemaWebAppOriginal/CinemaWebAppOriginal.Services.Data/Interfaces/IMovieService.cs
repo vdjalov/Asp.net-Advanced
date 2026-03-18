@@ -16,6 +16,7 @@ namespace CinemaWebAppOriginal.Services.Data.Interfaces
         Task<bool> UpdateMovieAsync(EditMovieViewModel viewModel); // for the edit view post method
         Task<bool> SoftDeleteMovieAsync(int id); // for the delete method
         Task<DeleteMovieViewModel> GetDeleteMovieViewModelByIdAsync(int id); // for the delete view get method
+        Task<ICollection<AllMoviesViewModel>> GetOnlyAllMoviesAsync();
        
 
 

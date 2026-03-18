@@ -185,7 +185,7 @@ namespace CinemaWebAppOriginal.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var (movies, totalPages)  = await this.movieService.GetAllMoviesAsync();
+            ICollection<AllMoviesViewModel> movies = await this.movieService.GetOnlyAllMoviesAsync();
 
             return View(movies);
         }

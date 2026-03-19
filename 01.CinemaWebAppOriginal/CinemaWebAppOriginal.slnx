@@ -6,6 +6,9 @@
   <Folder Name="/Services/">
     <Project Path="CinemaWebAppOriginal.Services.Data/CinemaWebAppOriginal.Services.Data.csproj" Id="78739f4e-cfdf-4755-bc41-60cd124da005" />
   </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="CInemaWebAppOriginal.Services.Tests/CInemaWebAppOriginal.Services.Tests.csproj" Id="966eb993-862c-4488-aadc-ee1085437b59" />
+  </Folder>
   <Folder Name="/Web/">
     <Project Path="CinemaWebAppOriginal.ViewModels/CinemaWebAppOriginal.ViewModels.csproj" Id="d4ee2ef8-74d9-410f-a3bd-f731a4d4568e" />
     <Project Path="CInemaWebAppOriginal.WebApi/CInemaWebAppOriginal.WebApi.csproj" Id="e7e042ee-7321-4887-bcc0-2fef67fdb1e8" />

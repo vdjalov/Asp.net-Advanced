@@ -1,3 +1,5 @@
+using CoffeeShop.Hubs;
+
 namespace CoffeeShop
 {
     public class Program
@@ -31,7 +33,7 @@ namespace CoffeeShop
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
-            
+            app.MapHub<CoffeeHub>("/coffeeHub");
 
             app.Run();
         }
